@@ -2,6 +2,13 @@
 <?$this->setFrameMode(true);?>
 <?use \Bitrix\Main\Localization\Loc;?>
 
+<?$APPLICATION->IncludeComponent(
+    "custom:razmery",
+    "catalog.detail",
+    array(
+    )
+);?>
+
 <div class="basket_props_block" id="bx_basket_div_<?=$arResult["ID"];?>" style="display: none;">
 	<?if (!empty($arResult['PRODUCT_PROPERTIES_FILL'])){
 		foreach ($arResult['PRODUCT_PROPERTIES_FILL'] as $propID => $propInfo){?>
