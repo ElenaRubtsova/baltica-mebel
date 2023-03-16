@@ -1,5 +1,6 @@
-<?if(!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED!==true)die();
-if ($arParams['OBSHCHIY_ID'] != '') {
+<?
+//if ($arResult['PROPERTIES']['OBSHCHIY_IDENTIFIKATOR_DLYA_SAYTA']['VALUE'] != '') {
+if ($arResult['PROPERTIES']['OBSHCHIY_IDENTIFIKATOR_DLYA_SAYTA']['VALUE'] != '') {
     $arSelect = array(
         "ID",
         "IBLOCK_ID",
@@ -10,9 +11,9 @@ if ($arParams['OBSHCHIY_ID'] != '') {
         "DETAIL_PAGE_URL",
     );
     $arFilter = array(
-        "IBLOCK_ID" => $arParams['IBLOCK_ID'],
+        "IBLOCK_ID" => $arResult['IBLOCK_ID'],
         "ACTIVE" => "Y",
-        "PROPERTY_OBSHCHIY_IDENTIFIKATOR_DLYA_SAYTA" => $arParams['OBSHCHIY_ID'],
+        "PROPERTY_OBSHCHIY_IDENTIFIKATOR_DLYA_SAYTA" => $arResult['PROPERTIES']['OBSHCHIY_IDENTIFIKATOR_DLYA_SAYTA']['VALUE'],
     );
     $res = CIBlockElement::GetList(array("SORT" => "ASC"), $arFilter, false, false, $arSelect);
     while ($ob = $res->GetNextElement()) {
@@ -54,4 +55,3 @@ if ($arParams['OBSHCHIY_ID'] != '') {
     $arResult["DOP_PARAMS"]["SHIRINA_VYSOTA_VALUE_COUNT"] = count($arResult["DOP_PARAMS"]["SHIRINA_VYSOTA_VALUE"]);
     $arResult["DOP_PARAMS"]["SHIRINA_GLUBINA_VALUE_COUNT"] = count($arResult["DOP_PARAMS"]["SHIRINA_GLUBINA_VALUE"]);
 }
-$this->IncludeComponentTemplate();

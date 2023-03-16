@@ -1,0 +1,19 @@
+a.razmer_item {
+    display: inline-block;
+
+    border: 1px solid #dddddd;
+    padding: 2px 10px;
+    text-align: center;
+    margin: 0px 5px 5px 0px;
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -o-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    cursor: pointer;
+    border-radius: 2px;
+    font-size: 13px;
+}
+a.razmer_item.activ {
+    color: #FFF;
+    background: #004ba4;
+}

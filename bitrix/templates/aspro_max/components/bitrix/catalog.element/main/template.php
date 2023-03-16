@@ -6,6 +6,10 @@
     "custom:razmery",
     "catalog.detail",
     array(
+        'OBSHCHIY_ID' => $arResult['PROPERTIES']['OBSHCHIY_IDENTIFIKATOR_DLYA_SAYTA']['VALUE'],
+        'IBLOCK_ID' => $arParams['IBLOCK_ID'],
+        'SHIRINA_DLINA' => $arResult['PROPERTIES']['SHIRINA_DLINA']['VALUE'],
+        'PROPERTIES' => $arResult['PROPERTIES']
     )
 );?>
 
