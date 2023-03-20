@@ -2,17 +2,6 @@
 <?$this->setFrameMode(true);?>
 <?use \Bitrix\Main\Localization\Loc;?>
 
-<?$APPLICATION->IncludeComponent(
-    "custom:razmery",
-    "catalog.detail",
-    array(
-        'OBSHCHIY_ID' => $arResult['PROPERTIES']['OBSHCHIY_IDENTIFIKATOR_DLYA_SAYTA']['VALUE'],
-        'IBLOCK_ID' => $arParams['IBLOCK_ID'],
-        'SHIRINA_DLINA' => $arResult['PROPERTIES']['SHIRINA_DLINA']['VALUE'],
-        'PROPERTIES' => $arResult['PROPERTIES']
-    )
-);?>
-
 <div class="basket_props_block" id="bx_basket_div_<?=$arResult["ID"];?>" style="display: none;">
 	<?if (!empty($arResult['PRODUCT_PROPERTIES_FILL'])){
 		foreach ($arResult['PRODUCT_PROPERTIES_FILL'] as $propID => $propInfo){?>
@@ -107,7 +96,7 @@ $templateData = array(
 	'LINK_BLOG' => $arResult['BLOG'],
 	'LINK_STAFF' => $arResult['LINK_STAFF'],
 	'LINK_VACANCY' => $arResult['LINK_VACANCY'],
-	'REVIEWS_COUNT' => $arParams['REVIEWS_VIEW'] == 'EXTENDED' 
+	'REVIEWS_COUNT' => $arParams['REVIEWS_VIEW'] == 'EXTENDED'
 		? $arResult["PROPERTIES"]['EXTENDED_REVIEWS_COUNT']['VALUE']
 		: $arResult['PROPERTIES']['FORUM_MESSAGE_CNT']['VALUE'],
 	'CATALOG_SETS' => array(
@@ -200,7 +189,7 @@ if( $showCustomOffer && isset($arResult['OFFERS'][$arResult['OFFERS_SELECTED']])
 	$bOfferDetailText = $arParams['SHOW_SKU_DESCRIPTION'] === 'Y' && $arCurrentSKU["DETAIL_TEXT"];
 	if(strlen($arParams["SKU_DETAIL_ID"]))
 		$arResult['DETAIL_PAGE_URL'].= '?'.$arParams["SKU_DETAIL_ID"].'='.$arCurrentSKU['ID'];
-	$templateData["OFFERS_INFO"]["CURRENT_OFFER"] = $arCurrentSKU["ID"];	
+	$templateData["OFFERS_INFO"]["CURRENT_OFFER"] = $arCurrentSKU["ID"];
 	$templateData["OFFERS_INFO"]["CURRENT_OFFER_TITLE"] = $arCurrentSKU['IPROPERTY_VALUES']["ELEMENT_PAGE_TITLE"] ?? $arCurrentSKU["NAME"];
 	$templateData["OFFERS_INFO"]["CURRENT_OFFER_WINDOW_TITLE"] = $arCurrentSKU['IPROPERTY_VALUES']["ELEMENT_META_TITLE"] ?? $templateData["OFFERS_INFO"]["CURRENT_OFFER_TITLE"];
 	if ($arCurrentSKU["DISPLAY_PROPERTIES"]["ARTICLE"]["VALUE"]) {
@@ -255,7 +244,7 @@ $arOfferProps = implode(';', $arParams['OFFERS_CART_PROPERTIES']);
 // save item viewed
 $arFirstPhoto = reset($arResult['MORE_PHOTO']);
 $viwedItem = $arCurrentSKU ?? $arResult;
-$arItemPrices = $viwedItem['MIN_PRICE'];	
+$arItemPrices = $viwedItem['MIN_PRICE'];
 if(isset($viwedItem['PRICE_MATRIX']) && $viwedItem['PRICE_MATRIX'])
 {
 	$rangSelected = $viwedItem['ITEM_QUANTITY_RANGE_SELECTED'];
@@ -403,6 +392,8 @@ $iCountProps = count($arResult['DISPLAY_PROPERTIES']) + $offerPropCount;
 																<span class="props_item"><?=$arProp["NAME"]?>:</span>
 															</div>
 															<div class="properties__value darken properties__item--inline char_value font_xs">
+
+
 																<?if($arResult["TMP_OFFERS_PROP"][$arProp["CODE"]]){
 																	echo $arResult["TMP_OFFERS_PROP"][$arProp["CODE"]]["VALUES"][$arSKU["TREE"]["PROP_".$arProp["ID"]]]["NAME"];?>
 																<?}else{
@@ -458,7 +449,7 @@ $iCountProps = count($arResult['DISPLAY_PROPERTIES']) + $offerPropCount;
 										</div>
 										<?\Aspro\Functions\CAsproMax::showBonusBlockDetail($arSKU);?>
 
-										
+
 
 										<div class="basket_props_block" id="bx_basket_div_<?=$arSKU["ID"];?>" style="display: none;">
 											<?if (!empty($arSKU['PRODUCT_PROPERTIES_FILL'])){
@@ -794,7 +785,7 @@ $iCountProps = count($arResult['DISPLAY_PROPERTIES']) + $offerPropCount;
 						</div>
 					</div>
 				</div>
-			</div>	
+			</div>
 		</div>
 		<div class="right_info">
 			<div class="info_item hidden-md hidden-lg">
@@ -803,7 +794,7 @@ $iCountProps = count($arResult['DISPLAY_PROPERTIES']) + $offerPropCount;
 					(
 						!$arResult["OFFERS"] &&
 						$arAddToBasketData["ACTION"] == "ADD" &&
-						$arAddToBasketData["CAN_BUY"] && 
+						$arAddToBasketData["CAN_BUY"] &&
 						!$bComplect
 					) ||
 					(
@@ -900,7 +891,7 @@ $iCountProps = count($arResult['DISPLAY_PROPERTIES']) + $offerPropCount;
 										<?$j++;?>
 									<?endforeach;?>
 								</div>
-								
+
 							</div>
 							<?if($bShowMoreLink):?>
 								<div class="more-char-link"><span class="choise colored_theme_text_with_hover font_sxs dotted" data-block=".js-scrolled"><?=Loc::getMessage('ALL_CHARS');?></span></div>
@@ -928,7 +919,7 @@ $iCountProps = count($arResult['DISPLAY_PROPERTIES']) + $offerPropCount;
 
 				<div class="main_item_wrapper js-offers-calc product-action product-main">
 					<div class="js-item-analog-mobile js-animate-appearance"></div>
-					
+
 					<?$frame = $this->createFrame()->begin('');?>
 						<div class="prices_block">
 							<?ob_start()?>
@@ -938,7 +929,7 @@ $iCountProps = count($arResult['DISPLAY_PROPERTIES']) + $offerPropCount;
 											<div class="prices-wrapper">
 												<div class="price font-bold font_mxs">
 													<div class="price_value_block values_wrapper">
-														<span class="price_value complect_price_value">0</span>												
+														<span class="price_value complect_price_value">0</span>
 														<span class="price_currency">
 															<?//$arResult['MIN_PRICE']['CURRENCY']?>
 															<?=str_replace("999", "", \CCurrencyLang::CurrencyFormat("999", $arResult["CURRENCIES"][0]["CURRENCY"]))?>
@@ -985,7 +976,7 @@ $iCountProps = count($arResult['DISPLAY_PROPERTIES']) + $offerPropCount;
 													<?=CMax::showPriceRangeTop($arResult, $arParams, Loc::getMessage("CATALOG_ECONOMY"));?>
 												<?endif;?>
 												<?if(
-													count($arResult['PRICE_MATRIX']['ROWS']) > 1 
+													count($arResult['PRICE_MATRIX']['ROWS']) > 1
 													|| count($arResult['PRICE_MATRIX']['COLS']) > 1
 												):?>
 													<?=CMax::showPriceMatrix($arResult, $arParams, $strMeasure, $arAddToBasketData);?>
@@ -1102,7 +1093,7 @@ $iCountProps = count($arResult['DISPLAY_PROPERTIES']) + $offerPropCount;
 								<?$this->EndViewTarget();?>
 							<?endif;?>
 						</div>
-						
+
 						<?if(!$bComplect):?>
 							<?//buttons?>
 							<?$this->SetViewTarget('PRODUCT_SIDE_INFO', 500);?>
@@ -1148,6 +1139,19 @@ $iCountProps = count($arResult['DISPLAY_PROPERTIES']) + $offerPropCount;
 														<?=$arAddToBasketData["HTML"]?>
 													<!--/noindex-->
 												</div>
+
+                                                <? if ($USER->IsAdmin()) {
+                                                    $APPLICATION->IncludeComponent(
+                                                        "custom:razmery",
+                                                        "catalog.detail",
+                                                        array(
+                                                            'OBSHCHIY_ID' => $arResult['PROPERTIES']['OBSHCHIY_IDENTIFIKATOR_DLYA_SAYTA']['VALUE'],
+                                                            'IBLOCK_ID' => $arParams['IBLOCK_ID'],
+                                                            'SHIRINA_DLINA' => $arResult['PROPERTIES']['SHIRINA_DLINA']['VALUE'],
+                                                            'PROPERTIES' => $arResult['PROPERTIES'],
+                                                        )
+                                                    );
+                                                } ?>
 											</div>
 											<?if(isset($arResult['PRICE_MATRIX']) && $arResult['PRICE_MATRIX']) // USE_PRICE_COUNT
 											{?>
@@ -1228,7 +1232,7 @@ $iCountProps = count($arResult['DISPLAY_PROPERTIES']) + $offerPropCount;
 					(
 						!$arResult["OFFERS"] &&
 						$arAddToBasketData["ACTION"] == "ADD" &&
-						$arAddToBasketData["CAN_BUY"] && 
+						$arAddToBasketData["CAN_BUY"] &&
 						!$bComplect
 					) ||
 					(
@@ -1288,7 +1292,7 @@ $iCountProps = count($arResult['DISPLAY_PROPERTIES']) + $offerPropCount;
 						</div>
 					<?endif;?>
 				<?$this->EndViewTarget();?>
-				
+
 				<?$this->SetViewTarget('PRODUCT_SIDE_INFO', 99);?>
 					<?if ($arResult['PRODUCT_ANALOG']):?>
 						<div class="js-item-analog js-animate-appearance"></div>
@@ -1633,7 +1637,7 @@ $iCountProps = count($arResult['DISPLAY_PROPERTIES']) + $offerPropCount;
 <?//files?>
 <?$instr_prop = ($arParams["DETAIL_DOCS_PROP"] ? $arParams["DETAIL_DOCS_PROP"] : "INSTRUCTIONS");?>
 <?if(
-		( is_array($arResult["PROPERTIES"][$instr_prop]["VALUE"]) && count($arResult["PROPERTIES"][$instr_prop]["VALUE"]) ) 
+		( is_array($arResult["PROPERTIES"][$instr_prop]["VALUE"]) && count($arResult["PROPERTIES"][$instr_prop]["VALUE"]) )
 		|| ( is_array($arResult["SECTION_FULL"]["UF_FILES"]) && count($arResult["SECTION_FULL"]["UF_FILES"]) )
 	):?>
 	<?
