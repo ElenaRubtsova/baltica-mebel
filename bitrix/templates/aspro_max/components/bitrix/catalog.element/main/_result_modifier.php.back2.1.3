@@ -1494,26 +1494,19 @@ if(in_array('HELP_TEXT', $arParams['PROPERTY_CODE']))
 
 if(!empty($arResult['DISPLAY_PROPERTIES']))
 {
-	$arResult['LINK_STAFF'] = $arResult['DISPLAY_PROPERTIES']['LINK_STAFF']['VALUE'] ?? '';
-	$arResult['LINK_VACANCY'] = $arResult['DISPLAY_PROPERTIES']['LINK_VACANCY']['VALUE'] ?? '';
+	$arResult['LINK_STAFF'] = $arResult['DISPLAY_PROPERTIES']['LINK_STAFF']['VALUE'];
+	$arResult['LINK_VACANCY'] = $arResult['DISPLAY_PROPERTIES']['LINK_VACANCY']['VALUE'];
 
 	$arVideo = array();
-	if (isset($arResult["DISPLAY_PROPERTIES"]["VIDEO"]["VALUE"])) {
-		if (is_array($arResult["DISPLAY_PROPERTIES"]["VIDEO"]["VALUE"])) {
-			$arVideo = $arVideo + $arResult["DISPLAY_PROPERTIES"]["VIDEO"]["~VALUE"];
-		}
-		elseif (strlen($arResult["DISPLAY_PROPERTIES"]["VIDEO"]["VALUE"])) {
-			$arVideo[] = $arResult["DISPLAY_PROPERTIES"]["VIDEO"]["~VALUE"];
-		}
-	}
+	if(strlen($arResult["DISPLAY_PROPERTIES"]["VIDEO"]["VALUE"]))
+		$arVideo[] = $arResult["DISPLAY_PROPERTIES"]["VIDEO"]["~VALUE"];
 
-	if (isset($arResult["DISPLAY_PROPERTIES"]["VIDEO_YOUTUBE"]["VALUE"])) {
-		if (is_array($arResult["DISPLAY_PROPERTIES"]["VIDEO_YOUTUBE"]["VALUE"])) {
+	if(isset($arResult["DISPLAY_PROPERTIES"]["VIDEO_YOUTUBE"]["VALUE"]))
+	{
+		if(is_array($arResult["DISPLAY_PROPERTIES"]["VIDEO_YOUTUBE"]["VALUE"]))
 			$arVideo = $arVideo + $arResult["DISPLAY_PROPERTIES"]["VIDEO_YOUTUBE"]["~VALUE"];
-		}
-		elseif (strlen($arResult["DISPLAY_PROPERTIES"]["VIDEO_YOUTUBE"]["VALUE"])) {
+		elseif(strlen($arResult["DISPLAY_PROPERTIES"]["VIDEO_YOUTUBE"]["VALUE"]))
 			$arVideo[] = $arResult["DISPLAY_PROPERTIES"]["VIDEO_YOUTUBE"]["~VALUE"];
-		}
 	}
 
 	if(strlen($arResult["SECTION_FULL"]["UF_VIDEO"]))
