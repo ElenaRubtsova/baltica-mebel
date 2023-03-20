@@ -4,7 +4,7 @@
 <div class="product-view product-view--side-left">
     <?$ElementID = $APPLICATION->IncludeComponent(
         "bitrix:catalog.element",
-        "main",
+        "main_custom",
         Array(
             "USE_REGION" => ($arRegion ? "Y" : "N"),
             "USE_PREDICTION" => $arParams['USE_DETAIL_PREDICTION'],

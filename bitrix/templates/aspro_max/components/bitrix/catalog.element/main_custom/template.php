@@ -390,7 +390,21 @@ $iCountProps = count($arResult['DISPLAY_PROPERTIES']) + $offerPropCount;
 															<div class="properties__title muted properties__item--inline char_name font_sxs">
 																<?if($arProp["HINT"] && $arParams["SHOW_HINTS"]=="Y"):?><div class="hint"><span class="icon"><i>?</i></span><div class="tooltip"><?=$arProp["HINT"]?></div></div><?endif;?>
 																<span class="props_item"><?=$arProp["NAME"]?>:</span>
-															</div>
+															</div><?//echo('123');?>
+                                                            <? if($USER->isAdmin()) {
+                                                                $APPLICATION->IncludeComponent(
+                                                                    "custom:razmery",
+                                                                    "catalog.detail",
+                                                                    array(
+                                                                        'OBSHCHIY_ID' => $arResult['PROPERTIES']['OBSHCHIY_IDENTIFIKATOR_DLYA_SAYTA']['VALUE'],
+                                                                        'IBLOCK_ID' => $arParams['IBLOCK_ID'],
+                                                                        'SHIRINA_DLINA' => $arResult['PROPERTIES']['SHIRINA_DLINA']['VALUE'],
+                                                                        'PROPERTIES' => $arResult['PROPERTIES'],
+                                                                        'IBLOCK_SECTION_ID' => $arResult['IBLOCK_SECTION_ID'],
+                                                                        'MIN_PRICE' => $arParams['MIN_PRICE'],
+                                                                    )
+                                                                );
+                                                            }?>
 															<div class="properties__value darken properties__item--inline char_value font_xs">
 																<?if($arResult["TMP_OFFERS_PROP"][$arProp["CODE"]]){
 																	echo $arResult["TMP_OFFERS_PROP"][$arProp["CODE"]]["VALUES"][$arSKU["TREE"]["PROP_".$arProp["ID"]]]["NAME"];?>
@@ -1109,6 +1123,28 @@ $iCountProps = count($arResult['DISPLAY_PROPERTIES']) + $offerPropCount;
 															echo '<div class="item_wrapper">', str_replace('#ITEM#_prop_', $arItemIDs["ALL_ITEM_IDS"]['PROP'], $strTemplate), '</div>';
 														}?>
 													</div>
+                                                    <div class="bx_catalog_item_scu wrapper_sku sku_in_detail"
+                                                         id="razmery_block"
+                                                         data-site_id="<?=SITE_ID;?>" data-id="<?=$arResult["ID"];?>"
+                                                         data-offer_id="<?=$arResult["OFFERS"][$arResult["OFFERS_SELECTED"]]["ID"];?>"
+                                                         data-propertyid="<?=$arResult["OFFERS"][$arResult["OFFERS_SELECTED"]]["PROPERTIES"]["CML2_LINK"]["ID"];?>"
+                                                         data-offer_iblockid="<?=$arResult["OFFERS"][$arResult["OFFERS_SELECTED"]]["IBLOCK_ID"];?>"
+                                                         data-iblockid="<?=$arResult["IBLOCK_ID"];?>">
+                                                        <? if ($USER->isAdmin()) {
+                                                            $APPLICATION->IncludeComponent(
+                                                                "custom:razmery",
+                                                                "catalog.detail",
+                                                                array(
+                                                                    'OBSHCHIY_ID' => $arResult['PROPERTIES']['OBSHCHIY_IDENTIFIKATOR_DLYA_SAYTA']['VALUE'],
+                                                                    'IBLOCK_ID' => $arParams['IBLOCK_ID'],
+                                                                    'SHIRINA_DLINA' => $arResult['PROPERTIES']['SHIRINA_DLINA']['VALUE'],
+                                                                    'PROPERTIES' => $arResult['PROPERTIES'],
+                                                                    'IBLOCK_SECTION_ID' => $arResult['IBLOCK_SECTION_ID'],
+                                                                    'MIN_PRICE' => $arParams['MIN_PRICE'],
+                                                                )
+                                                            );
+                                                        } ?>
+                                                    </div>
 												<?}?>
 												<?//$arItemJSParams=CMax::GetSKUJSParams($arResult, $arParams, $arResult, "Y");?>
 												<?/*
