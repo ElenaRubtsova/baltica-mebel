@@ -1132,18 +1132,17 @@ $iCountProps = count($arResult['DISPLAY_PROPERTIES']) + $offerPropCount;
 													data-site_id="<?=SITE_ID;?>" data-id="<?=$arResult["ID"];?>" data-offer_id="<?=$arResult["OFFERS"][$arResult["OFFERS_SELECTED"]]["ID"];?>" data-propertyid="<?=$arResult["OFFERS"][$arResult["OFFERS_SELECTED"]]["PROPERTIES"]["CML2_LINK"]["ID"];?>" data-offer_iblockid="<?=$arResult["OFFERS"][$arResult["OFFERS_SELECTED"]]["IBLOCK_ID"];?>" data-iblockid="<?=$arResult["IBLOCK_ID"];?>">
 
                                                         <? if($USER->isAdmin()) { ?>
-
+                                                            <!-- верхняя надпись -->
                                                             <span class="show_class bx_item_section_name"><span>
                                                                 Высота<span class="sku_mdash">—</span><span class="val">63 см</span></span></span>
 
-                                                            <div class="font_sxs muted article">
-                                                                <span class="name">123 - </span><span class="value">123</span>
-                                                            </div>
-
+                                                            <!-- значения -->
                                                             <div class="bx_scu_scroller_container scrollblock scrollblock--ob-auto">
                                                                 <div class="bx_scu">
                                                                     <ul id="bx_117848907_181549_prop_3630_list"
                                                                         class="list_values_wrapper">
+
+                                                                        <!-- пункт -->
                                                                         <li class="item " data-treevalue="3630_882"
                                                                             data-showtype="li" data-onevalue="882"><i
                                                                                     title="Цвет фасада: дуб бунратти"></i><span
@@ -1152,22 +1151,8 @@ $iCountProps = count($arResult['DISPLAY_PROPERTIES']) + $offerPropCount;
                                                                                                        data-obgi="url('/upload/resize_cache/webp/uf/9d7/t66ju4b9kxttlkt3ps35w2cnz7e9appa/Dub_Bunratti.webp')"
                                                                                                        title="Цвет фасада: дуб бунратти"></span></span>
                                                                         </li>
-                                                                        <li class="item " data-treevalue="3630_780"
-                                                                            data-showtype="li" data-onevalue="780"><i
-                                                                                    title="Цвет фасада: пикард"></i><span
-                                                                                    class="cnt1"><span class="cnt_item"
-                                                                                                       style="background-image:url('/upload/resize_cache/webp/uf/ea3/ysxj3e543fxsb911ikelfzsyky4v3xb4/Pikard.webp');"
-                                                                                                       data-obgi="url('/upload/resize_cache/webp/uf/ea3/ysxj3e543fxsb911ikelfzsyky4v3xb4/Pikard.webp')"
-                                                                                                       title="Цвет фасада: пикард"></span></span>
-                                                                        </li>
-                                                                        <li class="item " data-treevalue="3630_192"
-                                                                            data-showtype="li" data-onevalue="192"><i
-                                                                                    title="Цвет фасада: антрацит"></i><span
-                                                                                    class="cnt1"><span class="cnt_item"
-                                                                                                       style="background-image:url('/upload/resize_cache/webp/uf/8b1/8b16e7acfd1a3bfdb95ff9b65628171b.webp');"
-                                                                                                       data-obgi="url('/upload/resize_cache/webp/uf/8b1/8b16e7acfd1a3bfdb95ff9b65628171b.webp')"
-                                                                                                       title="Цвет фасада: антрацит"></span></span>
-                                                                        </li>
+
+                                                                        <!-- пункт активный -->
                                                                         <li class="item active" data-treevalue="3630_88"
                                                                             data-showtype="li" data-onevalue="88"><i
                                                                                     title="Цвет фасада: белый гладкий"></i><span
