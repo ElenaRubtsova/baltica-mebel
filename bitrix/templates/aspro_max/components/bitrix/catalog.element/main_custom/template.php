@@ -1132,42 +1132,40 @@ $iCountProps = count($arResult['DISPLAY_PROPERTIES']) + $offerPropCount;
 													data-site_id="<?=SITE_ID;?>" data-id="<?=$arResult["ID"];?>" data-offer_id="<?=$arResult["OFFERS"][$arResult["OFFERS_SELECTED"]]["ID"];?>" data-propertyid="<?=$arResult["OFFERS"][$arResult["OFFERS_SELECTED"]]["PROPERTIES"]["CML2_LINK"]["ID"];?>" data-offer_iblockid="<?=$arResult["OFFERS"][$arResult["OFFERS_SELECTED"]]["IBLOCK_ID"];?>" data-iblockid="<?=$arResult["IBLOCK_ID"];?>">
 
                                                         <? if($USER->isAdmin()) { ?>
-                                                            <!-- верхняя надпись -->
-                                                            <span class="show_class bx_item_section_name"><span>
-                                                                Высота<span class="sku_mdash">—</span><span class="val">63 см</span></span></span>
-
-                                                            <!-- значения -->
-                                                            <div class="bx_scu_scroller_container scrollblock scrollblock--ob-auto">
-                                                                <div class="bx_scu">
-                                                                    <ul id="bx_117848907_181549_prop_3630_list"
-                                                                        class="list_values_wrapper">
-
-                                                                        <!-- пункт -->
-                                                                        <li class="item " data-treevalue="3630_882"
-                                                                            data-showtype="li" data-onevalue="882"><i
-                                                                                    title="Цвет фасада: дуб бунратти"></i><span
-                                                                                    class="cnt1"><span class="cnt_item"
-                                                                                                       style="background-image:url('/upload/resize_cache/webp/uf/9d7/t66ju4b9kxttlkt3ps35w2cnz7e9appa/Dub_Bunratti.webp');"
-                                                                                                       data-obgi="url('/upload/resize_cache/webp/uf/9d7/t66ju4b9kxttlkt3ps35w2cnz7e9appa/Dub_Bunratti.webp')"
-                                                                                                       title="Цвет фасада: дуб бунратти"></span></span>
-                                                                        </li>
-
-                                                                        <!-- пункт активный -->
-                                                                        <li class="item active" data-treevalue="3630_88"
-                                                                            data-showtype="li" data-onevalue="88"><i
-                                                                                    title="Цвет фасада: белый гладкий"></i><span
-                                                                                    class="cnt1"><span class="cnt_item"
-                                                                                                       style="background-image:url('/upload/resize_cache/webp/uf/4fc/4fc567ac1b8b88ba473012262ce3a48f.webp');"
-                                                                                                       data-obgi="url('/upload/resize_cache/webp/uf/4fc/4fc567ac1b8b88ba473012262ce3a48f.webp')"
-                                                                                                       title="Цвет фасада: белый гладкий"></span></span>
-                                                                        </li>
-                                                                    </ul>
+                                                            <div class="bx_item_detail_size" style=""
+                                                                 id="bx_117848907_188306_prop_3580_cont"
+                                                                 data-display_type="LI" data-id="3580"><span
+                                                                        class="show_class bx_item_section_name"><span>Высота<span
+                                                                                class="sku_mdash">—</span><span
+                                                                                class="val">902</span></span></span>
+                                                                <div class="bx_size_scroller_container scrollblock scrollblock--ob-auto">
+                                                                    <div class="bx_size">
+                                                                        <ul id="bx_117848907_188306_prop_3580_list"
+                                                                            class="list_values_wrapper">
+                                                                            <li class="item active"
+                                                                                data-treevalue="3580_263770"
+                                                                                data-showtype="li"
+                                                                                data-onevalue="263770"
+                                                                                title="Высота: 902"><i></i><span
+                                                                                        class="cnt">902</span></li>
+                                                                            <li class="item "
+                                                                                data-treevalue="3580_263770"
+                                                                                data-showtype="li"
+                                                                                data-onevalue="263770"
+                                                                                title="Высота: 902"><i></i><span
+                                                                                        class="cnt">902</span></li>
+                                                                        </ul>
+                                                                    </div>
                                                                 </div>
                                                             </div>
 
+                                                            <span class="btn btn-default btn-sm more type_block has-ripple">Все товары коллекции идея</span>
+
                                                         <? } ?>
 
-														<?foreach ($arSkuTemplate as $code => $strTemplate){
+														<?
+                                                        pp($arSkuTemplate);
+                                                        foreach ($arSkuTemplate as $code => $strTemplate){
 															if (!isset($arResult['OFFERS_PROP'][$code]))
 																continue;
 															echo '<div class="item_wrapper">', str_replace('#ITEM#_prop_', $arItemIDs["ALL_ITEM_IDS"]['PROP'], $strTemplate), '</div>';
