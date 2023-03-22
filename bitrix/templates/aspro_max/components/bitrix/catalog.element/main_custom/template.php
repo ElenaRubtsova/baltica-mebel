@@ -1128,8 +1128,40 @@ $iCountProps = count($arResult['DISPLAY_PROPERTIES']) + $offerPropCount;
 										<?if($arResult["OFFERS"] && $showCustomOffer):?>
 											<div class="sku_props inner_content js_offers__<?=$arResult['ID'];?>_detail">
 												<?if (!empty($arResult['OFFERS_PROP'])){?>
-													<div class="bx_catalog_item_scu wrapper_sku sku_in_detail" id="<? echo $arItemIDs["ALL_ITEM_IDS"]['PROP_DIV']; ?>"
-													data-site_id="<?=SITE_ID;?>" data-id="<?=$arResult["ID"];?>" data-offer_id="<?=$arResult["OFFERS"][$arResult["OFFERS_SELECTED"]]["ID"];?>" data-propertyid="<?=$arResult["OFFERS"][$arResult["OFFERS_SELECTED"]]["PROPERTIES"]["CML2_LINK"]["ID"];?>" data-offer_iblockid="<?=$arResult["OFFERS"][$arResult["OFFERS_SELECTED"]]["IBLOCK_ID"];?>" data-iblockid="<?=$arResult["IBLOCK_ID"];?>">
+                                                    <div class="bx_catalog_item_scu wrapper_sku sku_in_detail"
+                                                         id="<? echo $arItemIDs["ALL_ITEM_IDS"]['PROP_DIV']; ?>"
+                                                         data-site_id="<?=SITE_ID;?>" data-id="<?=$arResult["ID"];?>"
+                                                         data-offer_id="<?=$arResult["OFFERS"][$arResult["OFFERS_SELECTED"]]["ID"];?>"
+                                                         data-propertyid="<?=$arResult["OFFERS"][$arResult["OFFERS_SELECTED"]]["PROPERTIES"]["CML2_LINK"]["ID"];?>"
+                                                         data-offer_iblockid="<?=$arResult["OFFERS"][$arResult["OFFERS_SELECTED"]]["IBLOCK_ID"];?>"
+                                                         data-iblockid="<?=$arResult["IBLOCK_ID"];?>">
+
+                                                    <? if ($USER->isAdmin()) {
+                                                            //pp($arResult);
+                                                            $props = $APPLICATION->IncludeComponent(
+                                                                "custom:razmery",
+                                                                "catalog.detail",
+                                                                array(
+                                                                    'OBSHCHIY_ID' => ($arResult['PROPERTIES']['OBSHCHIY_IDENTIFIKATOR_DLYA_SAYTA']['VALUE'] ? $arResult['PROPERTIES']['OBSHCHIY_IDENTIFIKATOR_DLYA_SAYTA']['VALUE'] : $arResult['PROPERTIES']['BAZOVOE_NAIMENOVANIE']['VALUE']),
+                                                                    'IBLOCK_ID' => $arParams['IBLOCK_ID'],
+                                                                    'SHIRINA_DLINA' => $arResult['PROPERTIES']['SHIRINA_DLINA']['VALUE'],
+                                                                    'PROPERTIES' => $arResult['PROPERTIES'],
+                                                                    'IBLOCK_SECTION_ID' => $arResult['IBLOCK_SECTION_ID'],
+                                                                    'MIN_PRICE' => $arParams['MIN_PRICE'],
+                                                                )
+                                                            );
+                                                            //pp($props);
+                                                            foreach ($props as $code => $prop) { ?>
+                                                                <?//pp($prop);?>
+                                                                <div class="bx_item_detail_size" style=""
+                                                                     id="123bx_117848907_188306_prop_3580_cont"
+                                                                     data-display_type="LI" data-id="1233580"><span
+                                                                            class="show_class bx_item_section_name"><span><?=$prop['NAME']?><span
+                                                                                    class="sku_mdash">—</span><span
+                                                                                    class="val"><?=($arResult['PROPERTIES'][$code]['VALUE'])?></span></span></span>
+
+                                                            <? }
+                                                        } ?>
 
                                                         <? if($USER->isAdmin()) { ?>
                                                             <div class="bx_item_detail_size" style=""
@@ -1164,7 +1196,7 @@ $iCountProps = count($arResult['DISPLAY_PROPERTIES']) + $offerPropCount;
                                                         <? } ?>
 
 														<?
-                                                        pp($arSkuTemplate);
+                                                        //pp($arSkuTemplate);
                                                         foreach ($arSkuTemplate as $code => $strTemplate){
 															if (!isset($arResult['OFFERS_PROP'][$code]))
 																continue;
@@ -1178,8 +1210,8 @@ $iCountProps = count($arResult['DISPLAY_PROPERTIES']) + $offerPropCount;
                                                          data-propertyid="<?=$arResult["OFFERS"][$arResult["OFFERS_SELECTED"]]["PROPERTIES"]["CML2_LINK"]["ID"];?>"
                                                          data-offer_iblockid="<?=$arResult["OFFERS"][$arResult["OFFERS_SELECTED"]]["IBLOCK_ID"];?>"
                                                          data-iblockid="<?=$arResult["IBLOCK_ID"];?>">
-                                                        <? if ($USER->isAdmin()) {
-                                                            $APPLICATION->IncludeComponent(
+                                                        <? /*if ($USER->isAdmin()) {
+                                                            $props = $APPLICATION->IncludeComponent(
                                                                 "custom:razmery",
                                                                 "catalog.detail",
                                                                 array(
@@ -1191,7 +1223,8 @@ $iCountProps = count($arResult['DISPLAY_PROPERTIES']) + $offerPropCount;
                                                                     'MIN_PRICE' => $arParams['MIN_PRICE'],
                                                                 )
                                                             );
-                                                        } ?>
+                                                            pp($props);
+                                                        } */?>
                                                     </div>
 												<?}?>
 												<?//$arItemJSParams=CMax::GetSKUJSParams($arResult, $arParams, $arResult, "Y");?>
