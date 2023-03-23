@@ -2,9 +2,47 @@
 
 <?
 //print_r($arParams);
+//pp($arResult["DOP_PARAMS"]);
 ?>
 
-<div>
+<?// echo (empty($arResult["DOP_PARAMS"]['VYSOTA']['VALUES']));
+if (!empty($arResult["DOP_PARAMS"]['VYSOTA']['VALUES'])) {
+    foreach ($arResult["DOP_PARAMS"] as $code => $prop) {
+        $arParams['PROPERTIES'][$code]['VALUE'] /= 10;
+        $realsize = $arParams['PROPERTIES'][$code]['VALUE'];
+        ?>
+        <?//pp($prop);?>
+        <div class="bx_item_detail_size" style=""
+             data-display_type="LI">
+            <span class="show_class bx_item_section_name"><span><?=$prop['NAME']?><span
+                                class="sku_mdash">—</span><span
+                                class="val"><?=$arParams['PROPERTIES'][$code]['VALUE']?></span></span></span>
+            <div class="bx_size_scroller_container scrollblock scrollblock--ob-auto">
+                <div class="bx_size">
+                    <ul id="bx_117848907_188306_prop_3580_list"
+                        class="list_values_wrapper">
+                        <? foreach ($prop['VALUES'] as $size) {
+                            $size['VALUE'] /= 10;
+                            ?>
+                            <li class="item <? if ($realsize === $size['VALUE']): ?>active<? endif; ?>"
+                                data-treevalue="3580_263770"
+                                data-showtype="li"
+                                data-onevalue="263770"
+                                title="<?=$prop['NAME']?>: <?=$size['VALUE']?>">
+                                <i></i><span
+                                        class="cnt"><?=$size['VALUE']?></span>
+                            </li>
+                        <? } ?>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    <? }
+} ?>
+
+<!-- block serii-->
+
+<div><!--
     <? if ($arResult["DOP_PARAMS"]["SHIRINA_VYSOTA_VALUE_COUNT"] <= 1) { ?>
         <div class="razmer_bloc">
             <div class="razmer_bloc_tit">
@@ -108,7 +146,7 @@
             </div>
         </div>
     <? } ?>
-
+-->
     <?
     $arSelect = array("ID", "NAME", "DATE_ACTIVE_FROM", "CODE");
     $arFilter = array(
@@ -126,18 +164,11 @@
     } ?>
 
     <? if ($arParams['PROPERTIES']['SERIYA']['VALUE'] != '') { ?>
-        <div class="block_seriya">
-            <div class="btn btn-transparent-border-color  type_block transition_bg has-ripple credit_btn dop_a">
-                <a class="btn-transparent-border-color" href="<?=$Url_serii?>">Все товары
-                    коллекции <?=$arParams['PROPERTIES']['SERIYA']['VALUE']?></a>
-            </div>
-        </div>
+        <div class=""><a class="" href="<?=$Url_serii?>"><span class="btn btn-default btn-sm more type_block has-ripple">
+                    Все товары коллекции <?=$arParams['PROPERTIES']['SERIYA']['VALUE']?></span></a></div>
     <? } else { ?>
-        <div class="block_seriya">
-            <div class="btn btn-transparent-border-color  type_block transition_bg has-ripple credit_btn dop_a">
-                <a class="btn-transparent-border-color">Похожие товары</a>
-            </div>
-        </div>
+        <div class=""><a class=""><span class="btn btn-default btn-sm more type_block has-ripple">
+                    Похожие товары</span></a></div>
     <? } ?>
 
     <? $ar_resultid = array(); ?>
@@ -524,46 +555,4 @@
             ); ?>
         <? } ?>
     <? } ?>
-
-
-    <script type="text/javascript">
-        /*
-$(".razmer_item").removeAttr('onclick');
-$('.dop_color').on('click', function() {
-$('html,body').animate({scrollTop:$('.tabs').offset().top-130+"px"},{duration:1E3});
-
-$('#desc').removeClass("active");
-$('.char').removeClass("active");
-$('.stores').removeClass("active");
-$('.reviews').removeClass("active");
-$('.buy').removeClass("active");
-$('.payment').removeClass("active");
-$('.tabs li:eq(0)').removeClass("active");
-$('.tabs li:eq(1)').addClass("active");
-$('.tabs li:eq(2)').removeClass("active");
-$('.tabs li:eq(3)').removeClass("active");
-$('.tabs li:eq(4)').removeClass("active");
-$('.tabs li:eq(5)').removeClass("active");
-$('.custom_tab').addClass("active");
-});
-$('.form_blok_lnop.red').on('click', function() {
-$('html,body').animate({scrollTop:$('.tabs').offset().top-130+"px"},{duration:1E3});
-$('#desc').removeClass("active");
-$('.char').removeClass("active");
-$('.stores').removeClass("active");
-$('.reviews').removeClass("active");
-$('.buy').removeClass("active");
-$('.payment').removeClass("active");
-$('.tabs li:eq(0)').removeClass("active");
-$('.tabs li:eq(1)').addClass("active");
-$('.tabs li:eq(2)').removeClass("active");
-$('.tabs li:eq(3)').removeClass("active");
-$('.tabs li:eq(4)').removeClass("active");
-$('.tabs li:eq(5)').removeClass("active");
-$('.custom_tab').addClass("active");
-});
-$('.napolnenie').on('click', function() {
-$('html,body').animate({scrollTop:$('#napolnenie').offset().top-170+"px"},{duration:1E3});
-});*/
-    </script>
 </div>
