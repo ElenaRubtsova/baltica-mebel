@@ -19,7 +19,6 @@ function init_params(array &$arParams, array &$arResult)
     );
     foreach ($arResult["DOP_PARAMS"] as $code => &$prop) {
         //echo $code;
-        $arParams['PROPERTIES'][$code]['VALUE'] /= 10;
         $prop['NAME'] = $arParams['PROPERTIES'][$code]['NAME'];
         $prop["VALUES"][] = array(
             //"NAME" => $prop[$code]["NAME"],
@@ -107,17 +106,17 @@ if ($arParams['OBSHCHIY_ID'] != '') {//echo 9;
             );*/
             $arResult["DOP_PARAMS"]["SHIRINA_DLINA"]["VALUES"][] = array(
                 //"NAME" => $arFields["NAME"],    //Комод Идея 858*450*500
-                "VALUE" => $arFields["PROPERTY_SHIRINA_DLINA_VALUE_VALUE"] / 10,
+                "VALUE" => $arFields["PROPERTY_SHIRINA_DLINA_VALUE_VALUE"],
                 "A_URL" => $arFields["DETAIL_PAGE_URL"],
             );
             $arResult["DOP_PARAMS"]["VYSOTA"]["VALUES"][] = array(
                 //"NAME" => $arFields["NAME"],
-                "VALUE" => $arFields["PROPERTY_VYSOTA_VALUE_VALUE"] / 10,
+                "VALUE" => $arFields["PROPERTY_VYSOTA_VALUE_VALUE"],
                 "A_URL" => $arFields["DETAIL_PAGE_URL"],
             );
             $arResult["DOP_PARAMS"]["GLUBINA"]["VALUES"][] = array(
                 //"NAME" => $arFields["NAME"],
-                "VALUE" => $arFields["PROPERTY_GLUBINA_VALUE_VALUE"] / 10,
+                "VALUE" => $arFields["PROPERTY_GLUBINA_VALUE_VALUE"],
                 "A_URL" => $arFields["DETAIL_PAGE_URL"],
             );
         }
