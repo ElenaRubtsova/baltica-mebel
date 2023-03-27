@@ -191,7 +191,7 @@ if ($arResult['MODULES']['catalog'])
 	if ( $boolSKU && $featureProps = \Bitrix\Iblock\Model\PropertyFeature::getDetailPageShowPropertyCodes( $arSKU["IBLOCK_ID"], array('CODE' => 'Y') ) ) {
 		$arParams['OFFERS_PROPERTY_CODE'] = $featureProps;
 	}
-	
+
 	if ($boolSKU && !empty($arParams['OFFER_TREE_PROPS']))
 	{
 		$arSKUPropList = CIBlockPriceTools::getTreeProperties(
@@ -530,7 +530,7 @@ if ($arResult['CATALOG'] && isset($arResult['OFFERS']) && !empty($arResult['OFFE
 				}
 				$arCell['SORT'] = $arSKUPropList[$strOneCode]['VALUES'][$arCell['VALUE']]['SORT'];
 			}
-			
+
 			$arRow[$strOneCode] = $arCell;
 		}
 		$arMatrix[$keyOffer] = $arRow;
@@ -541,7 +541,7 @@ if ($arResult['CATALOG'] && isset($arResult['OFFERS']) && !empty($arResult['OFFE
 		$arOffer['MORE_PHOTO_COUNT'] = 0;
 		$arOffer['ALT_TITLE_GET'] = $arParams['ALT_TITLE_GET'];
 		$offerSlider = CMax::getSliderForItemExt($arOffer, $arParams['OFFER_ADD_PICT_PROP'], true); // $arParams['ADD_DETAIL_TO_SLIDER'] == 'Y'
-		
+
 		$arOffer['MORE_PHOTO'] = $offerSlider;
 
 		if($arOffer['MORE_PHOTO']){
@@ -555,7 +555,7 @@ if ($arResult['CATALOG'] && isset($arResult['OFFERS']) && !empty($arResult['OFFE
 				}
 			}
 		}
-		
+
 		$arOffer['MORE_PHOTO_COUNT'] = count($arOffer['MORE_PHOTO']);
 
 		$boolSKUDisplayProps = !empty($arOffer['DISPLAY_PROPERTIES']);
@@ -697,7 +697,7 @@ if ($arResult['CATALOG'] && isset($arResult['OFFERS']) && !empty($arResult['OFFE
 				$foundOffer = ($arResult['OFFER_ID_SELECTED'] == $arOffer['ID']);
 			else
 				$foundOffer = $arOffer['CAN_BUY'];
-				
+
 			if ($foundOffer)
 				$intSelected = $keyOffer;
 			if (empty($arResult['MIN_PRICE']) /*&& $arOffer['CAN_BUY']*/)
@@ -864,7 +864,7 @@ if ($arResult['CATALOG'] && isset($arResult['OFFERS']) && !empty($arResult['OFFE
 				$percent=round(($arOneRow["PRICE"]["DISCOUNT_DIFF"]/$arOneRow["PRICE"]["VALUE"])*100, 2);
 				$arOneRow["PRICE"]["DISCOUNT_DIFF_PERCENT_RAW"]="-".$percent."%";
 			}
-			
+
 			$arMatrix[$keyOffer] = $arOneRow;
 		}
 	}
@@ -1011,7 +1011,7 @@ if ($arResult['CATALOG'] && isset($arResult['OFFERS']) && !empty($arResult['OFFE
 	if (-1 == $intSelected){
 		$intSelected = 0;
 	}
-	
+
 	$arResult['JS_OFFERS'] = $arMatrix;
 	$arResult['OFFERS_SELECTED'] = $intSelected;
 
@@ -1056,8 +1056,8 @@ if ($arResult['MODULES']['catalog'] && $arResult['CATALOG'])
 			$arResult['OFFER_GROUP'] = true;
 		}
 	}
-	
-	if($arParams['USE_PRICE_COUNT']) 
+
+	if($arParams['USE_PRICE_COUNT'])
 	{
 		if($arResult['OFFERS'])
 		{
@@ -1102,8 +1102,8 @@ if ($arResult['MODULES']['catalog'] && $arResult['CATALOG'])
 	} elseif (isset($arResult['ITEM_PRICE_MODE']) && $arResult['ITEM_PRICE_MODE'] === 'Q') {
 		//set PRICE_MATRIX when PRICE_RANGE will start not from 1
 		if (
-			function_exists('CatalogGetPriceTableEx') 
-			&& (isset($arResult['PRICE_MATRIX'])) 
+			function_exists('CatalogGetPriceTableEx')
+			&& (isset($arResult['PRICE_MATRIX']))
 			&& !$arResult['PRICE_MATRIX']
 			&& $arResult['CAT_PRICES']
 		) {
@@ -1126,7 +1126,7 @@ if ($arResult['MODULES']['catalog'] && $arResult['CATALOG'])
 		$bNeedFindPicture = (CMax::GetFrontParametrValue("SHOW_FIRST_SKU_PICTURE") == "Y") && $bEmptyPictureProduct;
 		if( $bNeedFindPicture ){
 			$bFindPicture = false;
-						
+
 			foreach ($arResult['OFFERS'] as $keyOffer => $arOffer) {
 				if (($arOffer['DETAIL_PICTURE'] && $arOffer['PREVIEW_PICTURE']) || (!$arOffer['DETAIL_PICTURE'] && $arOffer['PREVIEW_PICTURE'])) {
 					$arOffer['DETAIL_PICTURE'] = $arOffer['PREVIEW_PICTURE'];
@@ -1483,12 +1483,12 @@ if(in_array('HELP_TEXT', $arParams['PROPERTY_CODE']))
 				$bshowHelpTextFromFile = false;
 			}
 		}
-		
+
 		if( $bshowHelpTextFromFile ){
 			$arResult['HELP_TEXT'] = $help_text;
 			$arResult['HELP_TEXT_FILE'] = true;
 		}
-		?>		
+		?>
 	<?endif;?>
 <?}
 
@@ -1534,8 +1534,66 @@ if(!empty($arResult['DISPLAY_PROPERTIES']))
 	}
 	$arResult["GROUPS_PROPS"] = $arGroupsProp;
 }
+/*
+if ($arResult['PROPERTIES']['OBSHCHIY_IDENTIFIKATOR_DLYA_SAYTA']['VALUE'] != '') {
+	$arSelect = array(
+		"ID",
+		"IBLOCK_ID",
+		"NAME",
+		"PROPERTY_SHIRINA_DLINA_VALUE",
+		"PROPERTY_VYSOTA_VALUE",
+		"PROPERTY_GLUBINA_VALUE",
+		"DETAIL_PAGE_URL",
+	);
+	$arFilter = array(
+		"IBLOCK_ID" => $arResult['IBLOCK_ID'],
+		"ACTIVE" => "Y",
+		"PROPERTY_OBSHCHIY_IDENTIFIKATOR_DLYA_SAYTA" => $arResult['PROPERTIES']['OBSHCHIY_IDENTIFIKATOR_DLYA_SAYTA']['VALUE'],
+	);
+	$res = CIBlockElement::GetList(array("SORT" => "ASC"), $arFilter, false, false, $arSelect);
+	while ($ob = $res->GetNextElement()) {
+		$arFields = $ob->GetFields();
+		$arResult["DOP_PARAMS"]["SHIRINA_DLINA_VALUE"][] = array(
+			"DLINA_VALUE" => $arFields["PROPERTY_SHIRINA_DLINA_VALUE_VALUE"],
+			"A_URL" => $arFields["DETAIL_PAGE_URL"],
+		);
+		$arResult["DOP_PARAMS"]["SHIRINA_VYSOTA_VALUE"][] = array(
+			"VYSOTA_VALUE" => $arFields["PROPERTY_VYSOTA_VALUE_VALUE"],
+			"A_URL" => $arFields["DETAIL_PAGE_URL"],
+		);
+		$arResult["DOP_PARAMS"]["SHIRINA_GLUBINA_VALUE"][] = array(
+			"GLUBINA_VALUE" => $arFields["PROPERTY_GLUBINA_VALUE_VALUE"],
+			"A_URL" => $arFields["DETAIL_PAGE_URL"],
+		);
+	}
+	function array_unique_key($array, $key)
+	{
+		$tmp = $key_array = array();
+		$i = 0;
+		foreach ($array as $val) {
+			if (!in_array($val[$key], $key_array)) {
+				$key_array[$i] = $val[$key];
+				$tmp[$i] = $val;
+			}
+			$i++;
+		}
+		return $tmp;
+	}
 
-if('TYPE_1' == $arParams['TYPE_SKU'] && $arResult['OFFERS']){
+	if (false) {
+		$arResult["DOP_PARAMS"]["SHIRINA_DLINA_VALUE"] = array_unique_key($arResult["DOP_PARAMS"]["SHIRINA_DLINA_VALUE"],
+			'DLINA_VALUE');
+		$arResult["DOP_PARAMS"]["SHIRINA_VYSOTA_VALUE"] = array_unique_key($arResult["DOP_PARAMS"]["SHIRINA_VYSOTA_VALUE"],
+			'VYSOTA_VALUE');
+		$arResult["DOP_PARAMS"]["SHIRINA_GLUBINA_VALUE"] = array_unique_key($arResult["DOP_PARAMS"]["SHIRINA_GLUBINA_VALUE"],
+			'GLUBINA_VALUE');
+		$arResult["DOP_PARAMS"]["SHIRINA_DLINA_VALUE_COUNT"] = count($arResult["DOP_PARAMS"]["SHIRINA_DLINA_VALUE"]);
+		$arResult["DOP_PARAMS"]["SHIRINA_VYSOTA_VALUE_COUNT"] = count($arResult["DOP_PARAMS"]["SHIRINA_VYSOTA_VALUE"]);
+		$arResult["DOP_PARAMS"]["SHIRINA_GLUBINA_VALUE_COUNT"] = count($arResult["DOP_PARAMS"]["SHIRINA_GLUBINA_VALUE"]);
+	}
+}*/
+
+if ('TYPE_1' == $arParams['TYPE_SKU'] && $arResult['OFFERS']){
 	//for ajax offers
 	$arResult['SKU_CONFIG'] = array(
 		"SHOW_ABSENT" => $arParams["SHOW_ABSENT"],

@@ -1,21 +1,7 @@
 <?if(!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED!==true)die();?>
 <?$this->setFrameMode(true);?>
 <?use \Bitrix\Main\Localization\Loc;?>
-<? if($USER->isAdmin()) {
-    //pp($arResult['PROPERTIES']);
-    /*$APPLICATION->IncludeComponent(
-        "custom:razmery",
-        "catalog.detail",
-        array(
-            'OBSHCHIY_ID' => $arResult['PROPERTIES']['OBSHCHIY_IDENTIFIKATOR_DLYA_SAYTA']['VALUE'],
-            'IBLOCK_ID' => $arParams['IBLOCK_ID'],
-            'SHIRINA_DLINA' => $arResult['PROPERTIES']['SHIRINA_DLINA']['VALUE'],
-            'PROPERTIES' => $arResult['PROPERTIES'],
-            'IBLOCK_SECTION_ID' => $arResult['IBLOCK_SECTION_ID'],
-            'MIN_PRICE' => $arParams['MIN_PRICE'],
-        )
-    );*/
-}?>
+
 <div class="basket_props_block" id="bx_basket_div_<?=$arResult["ID"];?>" style="display: none;">
 	<?if (!empty($arResult['PRODUCT_PROPERTIES_FILL'])){
 		foreach ($arResult['PRODUCT_PROPERTIES_FILL'] as $propID => $propInfo){?>
@@ -404,21 +390,7 @@ $iCountProps = count($arResult['DISPLAY_PROPERTIES']) + $offerPropCount;
 															<div class="properties__title muted properties__item--inline char_name font_sxs">
 																<?if($arProp["HINT"] && $arParams["SHOW_HINTS"]=="Y"):?><div class="hint"><span class="icon"><i>?</i></span><div class="tooltip"><?=$arProp["HINT"]?></div></div><?endif;?>
 																<span class="props_item"><?=$arProp["NAME"]?>:</span>
-															</div><?//echo('123');?>
-                                                            <? if($USER->isAdmin()) {
-                                                                $APPLICATION->IncludeComponent(
-                                                                    "custom:razmery",
-                                                                    "catalog.detail",
-                                                                    array(
-                                                                        'OBSHCHIY_ID' => $arResult['PROPERTIES']['OBSHCHIY_IDENTIFIKATOR_DLYA_SAYTA']['VALUE'],
-                                                                        'IBLOCK_ID' => $arParams['IBLOCK_ID'],
-                                                                        'SHIRINA_DLINA' => $arResult['PROPERTIES']['SHIRINA_DLINA']['VALUE'],
-                                                                        'PROPERTIES' => $arResult['PROPERTIES'],
-                                                                        'IBLOCK_SECTION_ID' => $arResult['IBLOCK_SECTION_ID'],
-                                                                        'MIN_PRICE' => $arParams['MIN_PRICE'],
-                                                                    )
-                                                                );
-                                                            }?>
+															</div>
 															<div class="properties__value darken properties__item--inline char_value font_xs">
 																<?if($arResult["TMP_OFFERS_PROP"][$arProp["CODE"]]){
 																	echo $arResult["TMP_OFFERS_PROP"][$arProp["CODE"]]["VALUES"][$arSKU["TREE"]["PROP_".$arProp["ID"]]]["NAME"];?>
@@ -1128,97 +1100,15 @@ $iCountProps = count($arResult['DISPLAY_PROPERTIES']) + $offerPropCount;
 										<?if($arResult["OFFERS"] && $showCustomOffer):?>
 											<div class="sku_props inner_content js_offers__<?=$arResult['ID'];?>_detail">
 												<?if (!empty($arResult['OFFERS_PROP'])){?>
-                                                    <div class="bx_catalog_item_scu wrapper_sku sku_in_detail"
-                                                         id="<? echo $arItemIDs["ALL_ITEM_IDS"]['PROP_DIV']; ?>"
-                                                         data-site_id="<?=SITE_ID;?>" data-id="<?=$arResult["ID"];?>"
-                                                         data-offer_id="<?=$arResult["OFFERS"][$arResult["OFFERS_SELECTED"]]["ID"];?>"
-                                                         data-propertyid="<?=$arResult["OFFERS"][$arResult["OFFERS_SELECTED"]]["PROPERTIES"]["CML2_LINK"]["ID"];?>"
-                                                         data-offer_iblockid="<?=$arResult["OFFERS"][$arResult["OFFERS_SELECTED"]]["IBLOCK_ID"];?>"
-                                                         data-iblockid="<?=$arResult["IBLOCK_ID"];?>">
+													<div class="bx_catalog_item_scu wrapper_sku sku_in_detail" id="<? echo $arItemIDs["ALL_ITEM_IDS"]['PROP_DIV']; ?>"
+													data-site_id="<?=SITE_ID;?>" data-id="<?=$arResult["ID"];?>" data-offer_id="<?=$arResult["OFFERS"][$arResult["OFFERS_SELECTED"]]["ID"];?>" data-propertyid="<?=$arResult["OFFERS"][$arResult["OFFERS_SELECTED"]]["PROPERTIES"]["CML2_LINK"]["ID"];?>" data-offer_iblockid="<?=$arResult["OFFERS"][$arResult["OFFERS_SELECTED"]]["IBLOCK_ID"];?>" data-iblockid="<?=$arResult["IBLOCK_ID"];?>">
 
-                                                    <?if($USER->isAdmin()) {
-                                                        //pp($arResult);
-                                                        $props = $APPLICATION->IncludeComponent(
-                                                            "custom:razmery",
-                                                            "catalog.detail",
-                                                            array(
-                                                                'OBSHCHIY_ID' => ($arResult['PROPERTIES']['OBSHCHIY_IDENTIFIKATOR_DLYA_SAYTA']['VALUE'] ? $arResult['PROPERTIES']['OBSHCHIY_IDENTIFIKATOR_DLYA_SAYTA']['VALUE'] : $arResult['PROPERTIES']['BAZOVOE_NAIMENOVANIE']['VALUE']),
-                                                                'IBLOCK_ID' => $arParams['IBLOCK_ID'],
-                                                                'SHIRINA_DLINA' => $arResult['PROPERTIES']['SHIRINA_DLINA']['VALUE'],
-                                                                'PROPERTIES' => $arResult['PROPERTIES'],
-                                                                'IBLOCK_SECTION_ID' => $arResult['IBLOCK_SECTION_ID'],
-                                                                'MIN_PRICE' => $arParams['MIN_PRICE'],
-                                                            )
-                                                        );
-                                                        //pp($props);
-                                                        if (isset($props['VYSOTA'])) {
-                                                            foreach ($props as $code => $prop) {
-                                                                $arResult['PROPERTIES'][$code]['VALUE'] /= 10;
-                                                                $realsize = $arResult['PROPERTIES'][$code]['VALUE'];
-                                                                ?>
-                                                                <?//pp($prop);?>
-                                                                <div class="bx_item_detail_size" style=""
-                                                                     data-display_type="LI">
-                                                                    <span class="show_class bx_item_section_name"><span><?=$prop['NAME']?><span
-                                                                                        class="sku_mdash">—</span><span
-                                                                                        class="val"><?=$arResult['PROPERTIES'][$code]['VALUE']?></span></span></span>
-                                                                    <div class="bx_size_scroller_container scrollblock scrollblock--ob-auto">
-                                                                        <div class="bx_size">
-                                                                            <ul id="bx_117848907_188306_prop_3580_list"
-                                                                                class="list_values_wrapper">
-                                                                                <? foreach ($prop['VALUES'] as $size) {
-                                                                                    $size['VALUE'] /= 10;
-                                                                                    ?>
-                                                                                    <li class="item <? if ($realsize === $size['VALUE']): ?>active<? endif; ?>"
-                                                                                        data-treevalue="3580_263770"
-                                                                                        data-showtype="li"
-                                                                                        data-onevalue="263770"
-                                                                                        title="<?=$prop['NAME']?>: <?=$size['VALUE']?>">
-                                                                                        <i></i><span
-                                                                                                class="cnt"><?=$size['VALUE']?></span>
-                                                                                    </li>
-                                                                                <? } ?>
-                                                                            </ul>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            <? }
-                                                        } ?>
-                                                        <div class=""><span class="btn btn-default btn-sm more type_block has-ripple">
-                                                                Все товары коллекции идея</span></div>
-                                                        <!-- block serii-->
-                                                    <? } ?>
-														<?
-                                                        //pp($arSkuTemplate);
-                                                        foreach ($arSkuTemplate as $code => $strTemplate){
+														<?foreach ($arSkuTemplate as $code => $strTemplate){
 															if (!isset($arResult['OFFERS_PROP'][$code]))
 																continue;
 															echo '<div class="item_wrapper">', str_replace('#ITEM#_prop_', $arItemIDs["ALL_ITEM_IDS"]['PROP'], $strTemplate), '</div>';
 														}?>
 													</div>
-                                                    <div class="bx_catalog_item_scu wrapper_sku sku_in_detail"
-                                                         id="razmery_block"
-                                                         data-site_id="<?=SITE_ID;?>" data-id="<?=$arResult["ID"];?>"
-                                                         data-offer_id="<?=$arResult["OFFERS"][$arResult["OFFERS_SELECTED"]]["ID"];?>"
-                                                         data-propertyid="<?=$arResult["OFFERS"][$arResult["OFFERS_SELECTED"]]["PROPERTIES"]["CML2_LINK"]["ID"];?>"
-                                                         data-offer_iblockid="<?=$arResult["OFFERS"][$arResult["OFFERS_SELECTED"]]["IBLOCK_ID"];?>"
-                                                         data-iblockid="<?=$arResult["IBLOCK_ID"];?>">
-                                                        <? /*if ($USER->isAdmin()) {
-                                                            $props = $APPLICATION->IncludeComponent(
-                                                                "custom:razmery",
-                                                                "catalog.detail",
-                                                                array(
-                                                                    'OBSHCHIY_ID' => $arResult['PROPERTIES']['OBSHCHIY_IDENTIFIKATOR_DLYA_SAYTA']['VALUE'],
-                                                                    'IBLOCK_ID' => $arParams['IBLOCK_ID'],
-                                                                    'SHIRINA_DLINA' => $arResult['PROPERTIES']['SHIRINA_DLINA']['VALUE'],
-                                                                    'PROPERTIES' => $arResult['PROPERTIES'],
-                                                                    'IBLOCK_SECTION_ID' => $arResult['IBLOCK_SECTION_ID'],
-                                                                    'MIN_PRICE' => $arParams['MIN_PRICE'],
-                                                                )
-                                                            );
-                                                            pp($props);
-                                                        } */?>
-                                                    </div>
 												<?}?>
 												<?//$arItemJSParams=CMax::GetSKUJSParams($arResult, $arParams, $arResult, "Y");?>
 												<?/*

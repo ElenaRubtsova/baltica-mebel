@@ -1,47 +1,45 @@
-<?if(!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED!==true)die();?>
+<? if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true) {
+    die();
+} ?>
 
 <?
 //print_r($arParams);
 //pp($arResult["DOP_PARAMS"]);
 ?>
 
-<?// echo (empty($arResult["DOP_PARAMS"]['VYSOTA']['VALUES']));
-if (!empty($arResult["DOP_PARAMS"]['VYSOTA']['VALUES'])) {
-    foreach ($arResult["DOP_PARAMS"] as $code => $prop) {
-        $arParams['PROPERTIES'][$code]['VALUE'] /= 10;
-        $realsize = $arParams['PROPERTIES'][$code]['VALUE'];
-        ?>
-        <?//pp($prop);?>
-        <div class="bx_item_detail_size" style=""
-             data-display_type="LI">
+<?
+foreach ($arResult["DOP_PARAMS"] as $code => $prop) {
+    //$arParams['PROPERTIES'][$code]['VALUE'] /= 10;
+    ?>
+    <? //pp($prop);?>
+    <div class="bx_item_detail_size" style=""
+         data-display_type="LI">
             <span class="show_class bx_item_section_name"><span><?=$prop['NAME']?><span
-                                class="sku_mdash">—</span><span
-                                class="val"><?=$arParams['PROPERTIES'][$code]['VALUE']?></span></span></span>
-            <div class="bx_size_scroller_container scrollblock scrollblock--ob-auto">
-                <div class="bx_size">
-                    <ul id="bx_117848907_188306_prop_3580_list"
-                        class="list_values_wrapper">
-                        <? foreach ($prop['VALUES'] as $size) {
-                            $size['VALUE'] /= 10;
-                            ?>
-                            <li class="item <? if ($realsize === $size['VALUE']): ?>active<? endif; ?>"
-                                data-treevalue="3580_263770"
-                                data-showtype="li"
-                                data-onevalue="263770"
-                                title="<?=$prop['NAME']?>: <?=$size['VALUE']?>">
-                                <i></i><span
-                                        class="cnt"><?=$size['VALUE']?></span>
-                            </li>
-                        <? } ?>
-                    </ul>
-                </div>
+                            class="sku_mdash">—</span><span
+                            class="val"><?=$arParams['PROPERTIES'][$code]['VALUE']?> см</span></span></span>
+        <div class="bx_size_scroller_container scrollblock scrollblock--ob-auto">
+            <div class="bx_size">
+                <ul id="bx_117848907_188306_prop_3580_list"
+                    class="list_values_wrapper">
+                    <? foreach ($prop['VALUES'] as $size) {
+                        //pp($size);?>
+                        <a href="<?=$size['A_URL'];?>">
+                        <li class="item <? if ($size['ACTIVE'] == 'Y'): ?>active<? endif; ?>"
+                            data-treevalue="3580_263770"
+                            data-showtype="li"
+                            data-onevalue="263770"
+                            title="<?=$prop['NAME']?>: <?=$size['VALUE']?>">
+                            <i></i><span
+                                    class="cnt"><?=$size['VALUE']?></span>
+                        </li></a>
+                    <? } ?>
+                </ul>
             </div>
         </div>
-    <? }
-} ?>
+    </div>
+<? } ?>
 
 <!-- block serii-->
-
 <div><!--
     <? if ($arResult["DOP_PARAMS"]["SHIRINA_VYSOTA_VALUE_COUNT"] <= 1) { ?>
         <div class="razmer_bloc">
@@ -147,24 +145,9 @@ if (!empty($arResult["DOP_PARAMS"]['VYSOTA']['VALUES'])) {
         </div>
     <? } ?>
 -->
-    <?
-    $arSelect = array("ID", "NAME", "DATE_ACTIVE_FROM", "CODE");
-    $arFilter = array(
-        "IBLOCK_ID" => "129",
-        "NAME" => $arResult['PROPERTIES']['SERIYA']['VALUE'],
-        "ACTIVE" => "Y",
-    );
-    $res = CIBlockElement::GetList(array(), $arFilter, false, array("nPageSize" => 50), $arSelect);
-    while ($ob = $res->GetNextElement()) {
-        $arFields_serii = $ob->GetFields();
-    }
-    ?>
-    <? if ($arFields_serii['CODE'] != '') {
-        $Url_serii = '/serii/' . $arFields_serii['CODE'] . '/';
-    } ?>
-
-    <? if ($arParams['PROPERTIES']['SERIYA']['VALUE'] != '') { ?>
-        <div class=""><a class="" href="<?=$Url_serii?>"><span class="btn btn-default btn-sm more type_block has-ripple">
+    <? if ($arResult['URL_SERII']) { ?>
+        <div class=""><a class="" href="<?=$arResult['URL_SERII']?>"><span
+            class="btn btn-default btn-sm more type_block has-ripple">
                     Все товары коллекции <?=$arParams['PROPERTIES']['SERIYA']['VALUE']?></span></a></div>
     <? } else { ?>
         <div class=""><a class=""><span class="btn btn-default btn-sm more type_block has-ripple">
@@ -269,7 +252,7 @@ if (!empty($arResult["DOP_PARAMS"]['VYSOTA']['VALUES'])) {
         $arFields = $ob->GetFields();
         $ar_resultid_pr[] = $arFields['ID'];
     }
-    echo $_REQUEST["PRODUCT_ID"];
+    //echo $_REQUEST["PRODUCT_ID"];
     ?>
 
 
