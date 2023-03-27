@@ -1100,14 +1100,33 @@ $iCountProps = count($arResult['DISPLAY_PROPERTIES']) + $offerPropCount;
 										<?if($arResult["OFFERS"] && $showCustomOffer):?>
 											<div class="sku_props inner_content js_offers__<?=$arResult['ID'];?>_detail">
 												<?if (!empty($arResult['OFFERS_PROP'])){?>
-													<div class="bx_catalog_item_scu wrapper_sku sku_in_detail" id="<? echo $arItemIDs["ALL_ITEM_IDS"]['PROP_DIV']; ?>"
-													data-site_id="<?=SITE_ID;?>" data-id="<?=$arResult["ID"];?>" data-offer_id="<?=$arResult["OFFERS"][$arResult["OFFERS_SELECTED"]]["ID"];?>" data-propertyid="<?=$arResult["OFFERS"][$arResult["OFFERS_SELECTED"]]["PROPERTIES"]["CML2_LINK"]["ID"];?>" data-offer_iblockid="<?=$arResult["OFFERS"][$arResult["OFFERS_SELECTED"]]["IBLOCK_ID"];?>" data-iblockid="<?=$arResult["IBLOCK_ID"];?>">
+                                                    <div class="bx_catalog_item_scu wrapper_sku sku_in_detail"
+                                                         id="<? echo $arItemIDs["ALL_ITEM_IDS"]['PROP_DIV']; ?>"
+                                                         data-site_id="<?=SITE_ID;?>" data-id="<?=$arResult["ID"];?>"
+                                                         data-offer_id="<?=$arResult["OFFERS"][$arResult["OFFERS_SELECTED"]]["ID"];?>"
+                                                         data-propertyid="<?=$arResult["OFFERS"][$arResult["OFFERS_SELECTED"]]["PROPERTIES"]["CML2_LINK"]["ID"];?>"
+                                                         data-offer_iblockid="<?=$arResult["OFFERS"][$arResult["OFFERS_SELECTED"]]["IBLOCK_ID"];?>"
+                                                         data-iblockid="<?=$arResult["IBLOCK_ID"];?>">
 
-														<?foreach ($arSkuTemplate as $code => $strTemplate){
+                                                    <?foreach ($arSkuTemplate as $code => $strTemplate){
 															if (!isset($arResult['OFFERS_PROP'][$code]))
 																continue;
 															echo '<div class="item_wrapper">', str_replace('#ITEM#_prop_', $arItemIDs["ALL_ITEM_IDS"]['PROP'], $strTemplate), '</div>';
-														}?>
+														} ?>
+                                                        <div class="item_wrapper">
+                                                        <? $APPLICATION->IncludeComponent(
+                                                            "custom:razmery",
+                                                            "catalog.detail",
+                                                            array(
+                                                                'OBSHCHIY_ID' => $arResult['PROPERTIES']['OBSHCHIY_IDENTIFIKATOR_DLYA_SAYTA']['VALUE'],
+                                                                'IBLOCK_ID' => $arParams['IBLOCK_ID'],
+                                                                'SHIRINA_DLINA' => $arResult['PROPERTIES']['SHIRINA_DLINA']['VALUE'],
+                                                                'PROPERTIES' => $arResult['PROPERTIES'],
+                                                                'IBLOCK_SECTION_ID' => $arResult['IBLOCK_SECTION_ID'],
+                                                                'MIN_PRICE' => $arParams['MIN_PRICE'],
+                                                            )
+                                                        );
+                                                        ?></div>
 													</div>
 												<?}?>
 												<?//$arItemJSParams=CMax::GetSKUJSParams($arResult, $arParams, $arResult, "Y");?>
