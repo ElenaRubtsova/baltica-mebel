@@ -16,7 +16,7 @@ foreach ($arResult["DOP_PARAMS"] as $code => $prop) {
          data-display_type="LI">
             <span class="show_class bx_item_section_name"><span><?=$prop['NAME']?><span
                             class="sku_mdash">—</span><span
-                            class="val"><?=$arParams['PROPERTIES'][$code]['VALUE']?> см</span></span></span>
+                            class="val"><?=$arParams['PROPERTIES'][$code]['VALUE']?></span></span></span>
         <div class="bx_size_scroller_container scrollblock scrollblock--ob-auto">
             <div class="bx_size">
                 <ul id="bx_117848907_188306_prop_3580_list"

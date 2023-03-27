@@ -19,7 +19,6 @@ function init_params(array &$arParams, array &$arResult)
     );
     foreach ($arResult["DOP_PARAMS"] as $code => &$prop) {
         //echo $code;
-        $arParams['PROPERTIES'][$code]['VALUE'] /= 10;
         $prop['NAME'] = $arParams['PROPERTIES'][$code]['NAME'];
         $prop["VALUES"][] = array(
             //"NAME" => $prop[$code]["NAME"],
