@@ -19,18 +19,23 @@ function init_params(array &$arParams, array &$arResult)
     );
     foreach ($arResult["DOP_PARAMS"] as $code => &$prop) {
         //echo $code;
-        $prop['NAME'] = $arParams['PROPERTIES'][$code]['NAME'];
-        $prop["VALUES"][] = array(
-            //"NAME" => $prop[$code]["NAME"],
-            "VALUE" => $arParams['PROPERTIES'][$code]['VALUE'],
-            "ACTIVE" => 'Y',
-        );
+        if ($arParams['PROPERTIES'][$code]['VALUE'] != '') {
+            $prop['NAME'] = $arParams['PROPERTIES'][$code]['NAME'];
+            $prop["VALUES"][] = array(
+                //"NAME" => $prop[$code]["NAME"],
+                "VALUE" => $arParams['PROPERTIES'][$code]['VALUE'],
+                "ACTIVE" => 'Y',
+            );
+        }
     }
     return true;
 }
 
+//pp($arParams['OBSHCHIY_ID']);
+//pp($arParams['PROPERTIES']);
 init_params($arParams, $arResult);
 //pp($arParams['PROPERTIES']);
+
 /*foreach ($arParams['PROPERTIES'] as $code => $prop) { //$code
     $param = $arResult["DOP_PARAMS"][$code];
     $param["NAME"] = $prop[$code]['NAME'];
@@ -119,6 +124,9 @@ if ($arParams['OBSHCHIY_ID'] != '') {//echo 9;
                 "VALUE" => $arFields["PROPERTY_GLUBINA_VALUE_VALUE"],
                 "A_URL" => $arFields["DETAIL_PAGE_URL"],
             );
+            if ($arFields["PROPERTY_SHIRINA_DLINA_VALUE_VALUE"] == '') {
+                unset($arResult["DOP_PARAMS"]);
+            }
         }
         //pp($arFields);
         //echo empty($arFields);
@@ -166,9 +174,11 @@ if ($arParams['OBSHCHIY_ID'] != '') {//echo 9;
                 $props['VALUE'] = ($props['VALUE'] / 10);
             }
         }
-        sort($arResult["DOP_PARAMS"]["SHIRINA_DLINA"]["VALUES"]);
-        sort($arResult["DOP_PARAMS"]["VYSOTA"]["VALUES"]);
-        sort($arResult["DOP_PARAMS"]["GLUBINA"]["VALUES"]);
+        if (isset($arResult["DOP_PARAMS"])) {
+            sort($arResult["DOP_PARAMS"]["SHIRINA_DLINA"]["VALUES"]);
+            sort($arResult["DOP_PARAMS"]["VYSOTA"]["VALUES"]);
+            sort($arResult["DOP_PARAMS"]["GLUBINA"]["VALUES"]);
+        }
     }
 }
 if ($arParams['PROPERTIES']['SERIYA']['VALUE'] != '') {

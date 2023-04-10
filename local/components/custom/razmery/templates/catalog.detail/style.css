@@ -17,3 +17,8 @@ a.razmer_item.activ {
     color: #FFF;
     background: #004ba4;
 }
+.more {
+    padding-top: 7px;
+    padding-bottom: 12px;
+    /*text-align: center;*/
+}
