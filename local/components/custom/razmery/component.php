@@ -181,21 +181,6 @@ if ($arParams['OBSHCHIY_ID'] != '') {//echo 9;
         }
     }
 }
-if ($arParams['PROPERTIES']['SERIYA']['VALUE'] != '') {
-    $arSelect = array("ID", "NAME", "DATE_ACTIVE_FROM", "CODE");
-    $arFilter = array(
-        "IBLOCK_ID" => "129",
-        "NAME" => $arParams['PROPERTIES']['SERIYA']['VALUE'],
-        "ACTIVE" => "Y",
-    );
-    $res = CIBlockElement::GetList(array(), $arFilter, false, array("nPageSize" => 50), $arSelect);
-    while ($ob = $res->GetNextElement()) {
-        $arFields_serii = $ob->GetFields();
-    }
-    if ($arFields_serii['CODE'] != '') {
-        $arResult['URL_SERII'] = '/serii/' . $arFields_serii['CODE'] . '/';
-    }
-}
 //pp($arResult["DOP_PARAMS"]);
 $this->IncludeComponentTemplate();
 return $arResult["DOP_PARAMS"];

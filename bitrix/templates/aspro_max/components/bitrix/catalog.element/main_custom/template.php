@@ -1210,6 +1210,18 @@ $iCountProps = count($arResult['DISPLAY_PROPERTIES']) + $offerPropCount;
 										<?elseif($arResult["OFFERS"] && $arParams['TYPE_SKU'] != 'TYPE_1'):?>
 											<span class="btn btn-default btn-lg slide_offer type_block"><i></i><span><?=\Bitrix\Main\Config\Option::get("aspro.max", "EXPRESSION_READ_MORE_OFFERS_DEFAULT", GetMessage("MORE_TEXT_BOTTOM"));?></span></span>
 										<?endif;?>
+                                        <? $APPLICATION->IncludeComponent(
+                                            "custom:serii",
+                                            "catalog.detail",
+                                            array(
+                                                'IBLOCK_ID' => $arParams['IBLOCK_ID'],
+                                                'IBLOCK_SECTION_ID' => $arResult['IBLOCK_SECTION_ID'],
+                                                'SERIYA_VALUE' => $arResult['PROPERTIES']['SERIYA']['VALUE'],
+                                                'PROPERTIES' => $arResult['PROPERTIES'],
+                                                'MIN_PRICE' => $arParams['MIN_PRICE'],
+                                            )
+                                        );
+                                        ?>
 									</div>
 								</div>
 							<?$this->EndViewTarget();?>
