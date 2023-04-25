@@ -2,12 +2,12 @@
 
 <!-- block serii-->
 <? if ($arResult['URL_SERII']) { ?>
-    <div class="more"><a href="<?=$arResult['URL_SERII']?>"><span
-                    class="btn btn-default btn-sm more type_block has-ripple">
+    <div class="more-area more"><a href="<?=$arResult['URL_SERII']?>"><span
+                    class="btn btn-default btn-sm type_block has-ripple">
                     Все товары коллекции <?=$arParams['SERIYA_VALUE']?></span></a></div>
 <? } else { ?>
-    <div class="more"><a><span class="btn btn-default btn-sm more type_block has-ripple">
-                    Похожие товары</span></a></div>
+    <div class="more-text font_md darken subtitle option-font-bold">
+                    Похожие товары</div>
 <? } ?>
 <?
 //echo $_REQUEST["PRODUCT_ID"];

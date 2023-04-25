@@ -1,5 +1,11 @@
+.more-area {
+    padding-top: 30px;
+    padding-bottom: 15px;
+}
+.more-text {
+     padding-top: 10px;
+     padding-bottom: 15px;
+ }
 .more {
-    padding-top: 7px;
-    padding-bottom: 12px;
-    /*text-align: center;*/
+    text-align: center;
 }
