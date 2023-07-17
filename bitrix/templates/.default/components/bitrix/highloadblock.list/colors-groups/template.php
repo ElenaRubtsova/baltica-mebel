@@ -8,193 +8,81 @@ if (!empty($arResult['ERROR']))
 	return false;
 }
 
+$page = $APPLICATION->GetCurPage();
+$num = $_GET['page'] ? (int)$_GET['page'] : 1;
+$max = count($arResult['ЛДСП']);
 $newResult = array();
 ?>
 
-<style>
-    .accordion-wrap {
-    }
-    .text-right {
-        text-align: right;
-    }
-    .accordion {}
-    .accordion-card {}
-    .accordion-card-header {}
-    .accordion-card-body {}
-    .row {}
-    .row-colors {}
-    /*.flex {
-       display: flex;
-       flex-wrap: wrap;
-    }
-    .flex > * {
-        flex: 1 1 250px;
-        margin: 10px;
-    }
-    .grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-        grid-gap: 20px;
-        padding: 10px;
-    }*/
-    .asingakub-gesoupem {
-        --auto-grid-min-size: 11rem;
+<div class="fx-pagination">
+    <div class="fx-pagination-container">
+        <ul>
+            <li class="fx-pag-prev"><a href="<?=$page;?>?page=<?=$num-1;?>"><span>Назад</span></a></li>
+            <li class="<?=($num == 1) ?"fx-active" :"";?>"><a href="<?=$page;?>?page=1"><span>1</span></a></li>
+            <? if ($max <= 5) {
+                for ($i = 2; $i < $max; $i++) { ?>
+                    <li class="<?=($num == $i) ?"fx-active" :"";?>"><a href="<?=$page;?>?page=<?=$i?>>"><span><?=$i?></span></a></li>
+                <? }
+            } else { ?>
+                <? if ($num >= 1 && $num <= 3) { ?>
+                    <?/* if ($num == 1) { */?>
+                    <li class="<?=($num == 2) ?"fx-active" :"";?>"><a href="<?=$page;?>?page=2"><span>2</span></a></li>
+                    <li class="<?=($num == 3) ?"fx-active" :"";?>"><a href="<?=$page;?>?page=3"><span>3</span></a></li>
+                    ...
+                <? } elseif ($num == 4) { ?>
+                    <li class="<?=($num == 2) ?"fx-active" :"";?>"><a href="<?=$page;?>?page=2"><span>2</span></a></li>
+                    <li class="<?=($num == 3) ?"fx-active" :"";?>"><a href="<?=$page;?>?page=3"><span>3</span></a></li>
+                    <li class="<?=($num == 4) ?"fx-active" :"";?>"><a href="<?=$page;?>?page=4"><span>4</span></a></li>
+                    ...
+                <? } elseif ($num > 4 && $num < ($max-3)) { ?>
+                        ...
+                        <li class=""><a href="<?=$page;?>?page=<?=$num-1;?>"><span><?=$num-1;?></span></a></li>
+                        <li class="fx-active"><span><?=$num;?></span></li>
+                        <li class=""><a href="<?=$page;?>?page=<?=$num+1;?>"><span><?=$num+1;?></span></a></li>
+                        ...
+                <? } elseif ($num >= ($max-3)) { ?>
+                    ...
+                    <li class="<?=($num == ($max-3)) ?"fx-active" :"";?>"><a href="<?=$page;?>?page=<?=($max-3);?>"><span><?=($max-3);?></span></a></li>
+                    <li class="<?=($num == ($max-2)) ?"fx-active" :"";?>"><a href="<?=$page;?>?page=<?=($max-2);?>"><span><?=($max-2);?></span></a></li>
+                    <li class="<?=($num == ($max-1)) ?"fx-active" :"";?>"><a href="<?=$page;?>?page=<?=($max-1);?>"><span><?=($max-1);?></span></a></li>
+                <? } elseif ($num > ($max-3)) { ?>
+                    ...
+                    <li class="<?=($num == ($max-2)) ?"fx-active" :"";?>"><a href="<?=$page;?>?page=<?=($max-2);?>"><span><?=($max-2);?></span></a></li>
+                    <li class="<?=($num == ($max-1)) ?"fx-active" :"";?>"><a href="<?=$page;?>?page=<?=($max-1);?>"><span><?=($max-1);?></span></a></li>
+                <? } ?>
+            <? } ?>
+            <? $max = count($arResult['ЛДСП']);?>
+            <? if ($num < ($max - 2)) { ?>
+            <? } ?>
+            <li class="<?=($num == $max) ? "fx-active" : ""?>"><a href="<?=$page;?>?page=<?=$max;?>"><span><?=$max;?></span></a></li>
 
-        display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(var(--auto-grid-min-size), 10fr));
-        grid-gap: 0rem;
-        margin: 0rem;
-        padding-left: 0;
-        pointer-events: none;
-        text-align: center;
-    }
-    .asingakub-gesoupem > * {
-        transition: 300ms opacity, 300ms transform;
-    }
-    .kartochka {
-        list-style: none;
-        font-size: 17px;
-    }
-    .kartochka img {
-        box-shadow: 0 2px 28px rgba(109, 109, 109, 0.36);
-        border-radius: 5px;
-    }
-    .kartochka p {
-        padding-top: 10px;
-    }
-</style>
-<div class="accordion-wrap">
-    <ul class="asingakub-gesoupem">
-    <div class="kartochka">
-        <a class="image color-fancybox" href="<?=$element['UF_FILE']?>" data-fancybox="color-gallery-<?=$i++;?>>" data-caption="<?=$element['UF_NAME'];?>">
-             <img src="/upload/resize_cache/webp/uf/067/067f744ce68064f0208817d0003f32b9.webp" alt="<?=$element['UF_NAME'];?>">
-        </a>
-        <p>Желтый</p>
+            <li class="fx-pag-next"><a href="<?=$page;?>?page=<?=$num+1;?>"><span>Вперед</span></a></li>
+            <li class="fx-pag-all"><a href="<?=$page;?>?page=page-all" rel="nofollow"><span>Все</span></a></li>
+        </ul>
+        <div style="clear:both"></div>
     </div>
-        <div class="kartochka">
-            <a class="image color-fancybox" href="<?=$element['UF_FILE']?>" data-fancybox="color-gallery-<?=$i++;?>>" data-caption="<?=$element['UF_NAME'];?>">
-                <img src="/upload/resize_cache/webp/uf/067/067f744ce68064f0208817d0003f32b9.webp" alt="<?=$element['UF_NAME'];?>">
-            </a>
-            <p>Желтый</p>
-        </div>
-        <div class="kartochka">
-            <a class="image color-fancybox" href="<?=$element['UF_FILE']?>" data-fancybox="color-gallery-<?=$i++;?>>" data-caption="<?=$element['UF_NAME'];?>">
-                <img src="/upload/resize_cache/webp/uf/067/067f744ce68064f0208817d0003f32b9.webp" alt="<?=$element['UF_NAME'];?>">
-            </a>
-            <p>Желтый</p>
-        </div>
-        <div class="kartochka">
-            <a class="image color-fancybox" href="<?=$element['UF_FILE']?>" data-fancybox="color-gallery-<?=$i++;?>>" data-caption="<?=$element['UF_NAME'];?>">
-                <img src="/upload/resize_cache/webp/uf/067/067f744ce68064f0208817d0003f32b9.webp" alt="<?=$element['UF_NAME'];?>">
-            </a>
-            <p>Желтый</p>
-        </div>
-        <div class="kartochka">
-            <a class="image color-fancybox" href="<?=$element['UF_FILE']?>" data-fancybox="color-gallery-<?=$i++;?>>" data-caption="<?=$element['UF_NAME'];?>">
-                <img src="/upload/resize_cache/webp/uf/067/067f744ce68064f0208817d0003f32b9.webp" alt="<?=$element['UF_NAME'];?>">
-            </a>
-            <p>Желтый</p>
-        </div>
-        <div class="kartochka">
-            <a class="image color-fancybox" href="<?=$element['UF_FILE']?>" data-fancybox="color-gallery-<?=$i++;?>>" data-caption="<?=$element['UF_NAME'];?>">
-                <img src="/upload/resize_cache/webp/uf/067/067f744ce68064f0208817d0003f32b9.webp" alt="<?=$element['UF_NAME'];?>">
-            </a>
-            <p>Желтый</p>
-        </div>
-        <div class="kartochka">
-            <a class="image color-fancybox" href="<?=$element['UF_FILE']?>" data-fancybox="color-gallery-<?=$i++;?>>" data-caption="<?=$element['UF_NAME'];?>">
-                <img src="/upload/resize_cache/webp/uf/067/067f744ce68064f0208817d0003f32b9.webp" alt="<?=$element['UF_NAME'];?>">
-            </a>
-            <p>Желтый</p>
-        </div>
-        <div class="kartochka">
-            <a class="image color-fancybox" href="<?=$element['UF_FILE']?>" data-fancybox="color-gallery-<?=$i++;?>>" data-caption="<?=$element['UF_NAME'];?>">
-                <img src="/upload/resize_cache/webp/uf/067/067f744ce68064f0208817d0003f32b9.webp" alt="<?=$element['UF_NAME'];?>">
-            </a>
-            <p>Желтый</p>
-        </div>
-        <div class="kartochka">
-            <a class="image color-fancybox" href="<?=$element['UF_FILE']?>" data-fancybox="color-gallery-<?=$i++;?>>" data-caption="<?=$element['UF_NAME'];?>">
-                <img src="/upload/resize_cache/webp/uf/067/067f744ce68064f0208817d0003f32b9.webp" alt="<?=$element['UF_NAME'];?>">
-            </a>
-            <p>Желтый</p>
-        </div>
-        <div class="kartochka">
-            <a class="image color-fancybox" href="<?=$element['UF_FILE']?>" data-fancybox="color-gallery-<?=$i++;?>>" data-caption="<?=$element['UF_NAME'];?>">
-                <img src="/upload/resize_cache/webp/uf/067/067f744ce68064f0208817d0003f32b9.webp" alt="<?=$element['UF_NAME'];?>">
-            </a>
-            <p>Желтый</p>
-        </div>
-    </ul>
 </div>
-<?
-use Bitrix\Main\Loader;
-use Bitrix\Highloadblock\HighloadBlockTable;
 
-Loader::includeModule("highloadblock");
-
-// Получаем ID Highload блока
-$hlblockId = 8;
-
-// Получаем класс Highload блока по его ID
-$hlblock = HighloadBlockTable::getById($hlblockId)->fetch();
-
-if ($hlblock) {
-    // Получаем название таблицы Highload блока
-    $entity = HighloadBlockTable::compileEntity($hlblock);
-    $entityDataClass = $entity->getDataClass();
-
-    // Выполняем выборку элементов
-    $result = $entityDataClass::getList(array(
-        'select' => array('UF_NAME', 'UF_GROUP', 'UF_FILE'), // Выбираем все поля элемента
-        'order' => array('ID' => 'ASC'), // Сортировка по ID элемента
-        'filter' => array('!UF_GROUP' => false, '!UF_FILE' => false), // Фильтр по элементам
-    ));
-
-$newResult = array();
-
-// Обрабатываем результат выборки
-while ($element = $result->fetch()) {
-    //pp($element['UF_GROUP']);
-    //pp($element['UF_FILE']);
-    $file = CFile::GetFileArray($element['UF_FILE']);
-    /*pp($file);
-    if ($file)
-        echo '<img src="' . $file['SRC'] . '" alt="'.$element['UF_NAME'].'">';
-    else
-        echo 'Файл не найден.';
-    echo '<br>';*/
-    $newResult[$element['UF_GROUP']][] = [
-        'UF_NAME' => ucfirst($element['UF_NAME']),
-        'UF_FILE' => $file['SRC'],
-    ];
-}
-$groups = array();
-$rsType = CUserFieldEnum::GetList(array(), array(
-    'ID' => array_keys($newResult)
-));
-foreach($rsType->arResult as $arType) {
-    $groups[$arType['ID']] = $arType['VALUE'];
-}
-$arrResult = array_combine($groups, $newResult);
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.0.47/jquery.fancybox.min.css" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.0.47/jquery.fancybox.min.js"></script>
+<? if (!empty($arResult)) {
 //pp($arrResult);?>
-
 <h1>Материалы и цвета</h1>
 <div class="accordion-wrap">
     <div class="text-right">
-        <button type="button" class="btn btn-bordered btn-sm accordion-toogle">
-            <span class="show">Раскрыть все</span>
-            <span class="hide">Свернуть все</span>
+        <button type="button" id="control" class="btn btn-bordered btn-sm accordion-toogle">
+            <span id="show" class="show">Раскрыть все</span>
+            <span id="hide" class="hide">Свернуть все</span>
         </button>
     </div>
     <div class="accordion">
-        <? foreach ($arrResult as $group => $arrElements) { //pp($arrElements); ?>
+        <? foreach ($arResult as $group => $arElements) { //pp($arrElements);?>
         <div class="accordion-card">
             <div class="accordion-card-header" id="heading-<?=$group?>">
                 <button class="collapsed" type="button" data-toggle="collapse" data-target="#collapse-<?=$group?>"
                         aria-expanded="false" aria-controls="collapse-<?=$group?>">
-                    <?=$group;?>
-                    <sup class=""><?=count($arrElements);?> цветов</sup>
+                    <?=getGroupName($group);?>
+                    <sup class=""><?=getNameColor(count($arElements));?></sup>
                     <span class="plus"></span>
                 </button>
             </div>
@@ -206,25 +94,14 @@ $arrResult = array_combine($groups, $newResult);
                         </div>
                         <div class="col-md-4"></div>
                     </div>-->
-                    <div class="row row-colors">
-                    <? $i = 0;//pp($arrElements);
-                    foreach ($arrElements as $element) { ?>
-                        <div class="color-item col-4 col-sm-2">
-                        <?// Выводим данные элемента
-                        //pp($element);
-                            /*echo $element['UF_NAME'] . '<br>';
-                            print_r($element['UF_GROUP']);echo '<br>';
-                            echo 'file: '.$element['UF_FILE'] . '<br>';*/
-                            /*$file = CFile::GetFileArray($element['UF_FILE']);
-                            if ($file)
-                                echo '<img src="' . $file . '" alt="'.$element['UF_NAME'].'">';
-                            else
-                                echo 'Файл не найден.';
-                            echo '<br>'; */?>
-                            <a class="image color-fancybox" href="<?=$element['UF_FILE']?>"
-                               data-fancybox="color-gallery-<?=$i++;?>>"
+                    <div class="asingakub-gesoupem <?=$group;?>">
+                    <? $i = 0; //pp($arrElements);
+                    foreach ($arElements as $element) { ?>
+                        <div class="kartochka">
+                            <a class="fancybox" href="<?=$element['UF_FILE']?>"
+                               data-fancybox="color-gallery"
                                data-caption="<?=$element['UF_NAME'];?>">
-                                <img src="<?=$element['UF_FILE']?>" alt="<?=$element['UF_NAME'];?>"> <!--width="172" height="172"-->
+                                <img src="<?=$element['UF_FILE']?>" alt="<?=$element['UF_NAME'];?>" />
                             </a>
                             <p><?=$element['UF_NAME'];?></p>
                         </div>
@@ -237,3 +114,40 @@ $arrResult = array_combine($groups, $newResult);
     </div>
 </div>
 <? } ?>
+
+<script>
+    var button = document.getElementById("control");
+
+    function clickAll() {
+        var buttons = document.querySelectorAll('[data-toggle="collapse"]');
+        var spanShow = button.querySelector(".show");
+        var spanHide = button.querySelector(".hide");
+
+        var idActive = spanShow.id;
+        if (idActive == "show") {
+            for (var i = 0; i < buttons.length; i++) {
+                if (buttons[i].className == 'collapsed')
+                    buttons[i].click();
+            }
+        } else {
+            for (var i = 0; i < buttons.length; i++) {
+                if (buttons[i].className == '')
+                    buttons[i].click();
+            }
+        }
+
+        spanShow.className = "hide";
+        spanHide.className = "show";
+    }
+
+    button.addEventListener("click", clickAll);
+
+    $(document).ready(function() {
+
+        $(".fancybox").fancybox({
+            loop: true
+        });
+
+        $("[data-fancybox='color-gallery']").fancybox();
+    });
+</script>

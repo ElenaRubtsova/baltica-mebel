@@ -1,0 +1,208 @@
+.accordion-wrap {
+}
+.text-right {
+    text-align: right;
+}
+.accordion {}
+.accordion-card {    box-sizing: border-box;}
+.accordion-card-header {
+}
+.accordion-card-body {
+    padding: 18px 18px 0 10px;
+}
+.row {}
+.row-colors {}
+.btn.btn-bordered {
+    background: #fdc00c;
+    box-shadow: none;
+    color: #fff;
+}
+.accordion-wrap .accordion-toogle {
+    font-size: 12px;
+    margin: 0 0 14px;
+    padding-left: 15px;
+    padding-right: 15px;
+}
+.accordion-wrap .accordion .accordion-card {
+    border-bottom: 1px solid #dbdbdb;
+}
+.accordion-wrap .accordion .accordion-card-header button {
+    background: none;
+    border: none;
+    color: #363636;
+    display: block;
+    font-size: 20px;
+    padding: 16px 65px 12px 16px;
+    position: relative;
+    text-align: left;
+    text-decoration: none;
+    width: 100%;
+}
+.accordion-wrap .accordion .accordion-card-header button sup {
+    color: #a8a8a8;
+    font-size: 14px;
+    padding-left: 5px;
+    transition-duration: .3s;
+    white-space: nowrap;
+}
+.accordion-wrap .accordion .accordion-card-header button .plus:after, .accordion-wrap .accordion .accordion-card-header button .plus:before {
+    background: #fff;
+    border-radius: 1px;
+    content: "";
+    height: 5px;
+    left: 50%;
+    position: absolute;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    transition-duration: .3s;
+    width: 14px;
+}
+.accordion-wrap .accordion .accordion-card-header button .plus {
+    background: #fdc00c;
+    border: 2px solid #fdc00c;
+    border-radius: 50%;
+    height: 40px;
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    transition-duration: .3s;
+    width: 40px;
+}
+/*.accordion-wrap .accordion .accordion-card-header button:not(.collapsed) .plus {
+    background: none;
+}*/
+.accordion-wrap .accordion .accordion-card-header button.collapsed .plus:after {
+    opacity: 1;
+}
+.accordion-wrap .accordion .accordion-card-header button .plus:after {
+    opacity: 0;
+    transform: translate(-50%,-50%) rotate(90deg);
+}
+/*.flex {
+   display: flex;
+   flex-wrap: wrap;
+}
+.flex > * {
+    flex: 1 1 250px;
+    margin: 10px;
+}
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    grid-gap: 20px;
+    padding: 10px;
+}*/
+.asingakub-gesoupem {
+    --auto-grid-min-size: 11rem;
+
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(var(--auto-grid-min-size), 10fr));
+    grid-gap: 0rem;
+    margin: 0rem;
+    padding-left: 0;
+    text-align: center;
+}
+.tkani {
+    --auto-grid-min-size: 20rem;
+}
+.stoleshnici {
+    --auto-grid-min-size: 17rem;
+}
+.metall .kartochka img {
+    height: 156px;
+    width: 156px;
+}
+.asingakub-gesoupem > * {
+    transition: 300ms opacity, 300ms transform;
+}
+.kartochka {
+    list-style: none;
+    font-size: 17px;
+}
+.kartochka img {
+    box-shadow: 0 2px 18px rgba(109, 109, 109, 0.36);
+    border-radius: 5px;
+}
+.kartochka p {
+    padding-top: 10px;
+}
+.fancybox-container .fancybox-bg, .fancybox-container .fancybox-button {
+    background: #0f0f11;
+    opacity: 1;
+}
+
+/*--
+-- Pagination
+-- */
+.fx-pagination {
+    margin: 10px 0;
+}
+.fx-pagination .fx-pagination-container {
+    text-align: center;
+    position: relative;
+}
+.fx-pagination .fx-pagination-container ul {
+    padding: 0;
+    margin: 0;
+    list-style: none;
+    display: inline-block;
+}
+.fx-pagination .fx-pagination-container ul li {
+    display: inline-block;
+    margin: 0 2px 15px 2px;
+}
+.fx-pagination .fx-pagination-container ul li a {
+    text-decoration: none;
+    display: block;
+    border-radius: 16px;
+    height: 32px;
+    min-width: 32px;
+    line-height: 32px;
+    color: #444;
+    vertical-align: middle;
+}
+.fx-pagination .fx-pagination-container ul li {
+    display: inline-block;
+    margin: 0 2px 15px 2px;
+}
+.fx-pagination .fx-pagination-container ul li.fx-pag-all a span, .fx-pagination .fx-pagination-container ul li.fx-pag-prev a span, .fx-pagination .fx-pagination-container ul li.fx-pag-next a span {
+    background: #fff;
+    border: 2px solid #eff0f1;
+    line-height: 28px;
+    padding: 0 18px;
+    color: #444;
+}
+.fx-pagination .fx-pagination-container ul li.fx-active span {
+    background: #5588ec;
+    color: #fff;
+}
+.fx-pagination .fx-pagination-container ul li span {
+    transition: color .3s ease,background-color .3s ease,border-color .3s ease;
+    background: #eff0f1;
+    padding: 0 8px;
+    display: block;
+    height: 32px;
+    min-width: 32px;
+    line-height: 32px;
+    color: #444;
+    font-size: 14px;
+    border-radius: 16px;
+    vertical-align: middle;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+.fx-pagination .fx-pagination-container ul li.fx-pag-all a:hover span, .fx-pagination .fx-pagination-container ul li.fx-pag-prev a:hover span, .fx-pagination .fx-pagination-container ul li.fx-pag-next a:hover span {
+    background: #fff;
+    border-color: #dadada;
+    color: #000;
+}
+.fx-pagination .fx-pagination-container ul li a:hover span {
+    background: #dadada;
+}
+ul:not([id*="fx_"]) > li:before {
+    content: none !important;
+    margin: 0 7px 0 -21px;
+}
+
