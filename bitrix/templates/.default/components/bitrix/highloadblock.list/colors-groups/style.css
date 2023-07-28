@@ -5,8 +5,36 @@
 }
 .accordion {}
 .accordion-card {    box-sizing: border-box;}
-.accordion-card-header {
-}
+.accordion-wrap .accordion .accordion-card-footer button {
+    background: none;
+    border: none;
+    color: #363636;
+    display: block;
+    font-size: 20px;
+}.accordion-wrap .accordion .accordion-card-footer button .plus {
+    background: #fdc00c;
+    border: 2px solid #fdc00c;
+    border-radius: 50%;
+    height: 40px;
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    transition-duration: .3s;
+    width: 40px;
+}.accordion-wrap .accordion .accordion-card-footer button .plus:before {
+     background: #fff;
+     border-radius: 1px;
+     content: "";
+     height: 5px;
+     left: 50%;
+     position: absolute;
+     top: 50%;
+     transform: translate(-50%, -50%);
+     transition-duration: .3s;
+     width: 14px;
+ }
+
 .accordion-card-body {
     padding: 18px 18px 0 10px;
 }
@@ -137,6 +165,7 @@
 -- */
 .fx-pagination {
     margin: 10px 0;
+    min-height: 20px;
 }
 .fx-pagination .fx-pagination-container {
     text-align: center;

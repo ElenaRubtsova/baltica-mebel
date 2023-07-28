@@ -1,4 +1,4 @@
-<?
+<?$size = 10;//Сколько элементов на 1 странице
 
 if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED!==true)die();
 
@@ -29,23 +29,23 @@ $newResult = array();
                     <li class="<?=($num == 2) ?"fx-active" :"";?>"><a href="<?=$page;?>?page=2"><span>2</span></a></li>
                     <li class="<?=($num == 3) ?"fx-active" :"";?>"><a href="<?=$page;?>?page=3"><span>3</span></a></li>
                     ...
-                <? } elseif ($num == 4) { ?>
+                <? /*} elseif ($num == 4) { ?>
                     <li class="<?=($num == 2) ?"fx-active" :"";?>"><a href="<?=$page;?>?page=2"><span>2</span></a></li>
                     <li class="<?=($num == 3) ?"fx-active" :"";?>"><a href="<?=$page;?>?page=3"><span>3</span></a></li>
                     <li class="<?=($num == 4) ?"fx-active" :"";?>"><a href="<?=$page;?>?page=4"><span>4</span></a></li>
                     ...
-                <? } elseif ($num > 4 && $num < ($max-3)) { ?>
+                <? */} elseif ($num >= 4 && $num <= ($max-3)) { ?>
                         ...
                         <li class=""><a href="<?=$page;?>?page=<?=$num-1;?>"><span><?=$num-1;?></span></a></li>
                         <li class="fx-active"><span><?=$num;?></span></li>
                         <li class=""><a href="<?=$page;?>?page=<?=$num+1;?>"><span><?=$num+1;?></span></a></li>
                         ...
-                <? } elseif ($num >= ($max-3)) { ?>
+                <? /*} elseif ($num >= ($max-3)) { ?>
                     ...
                     <li class="<?=($num == ($max-3)) ?"fx-active" :"";?>"><a href="<?=$page;?>?page=<?=($max-3);?>"><span><?=($max-3);?></span></a></li>
                     <li class="<?=($num == ($max-2)) ?"fx-active" :"";?>"><a href="<?=$page;?>?page=<?=($max-2);?>"><span><?=($max-2);?></span></a></li>
                     <li class="<?=($num == ($max-1)) ?"fx-active" :"";?>"><a href="<?=$page;?>?page=<?=($max-1);?>"><span><?=($max-1);?></span></a></li>
-                <? } elseif ($num > ($max-3)) { ?>
+                <? */} elseif ($num > ($max-3)) { ?>
                     ...
                     <li class="<?=($num == ($max-2)) ?"fx-active" :"";?>"><a href="<?=$page;?>?page=<?=($max-2);?>"><span><?=($max-2);?></span></a></li>
                     <li class="<?=($num == ($max-1)) ?"fx-active" :"";?>"><a href="<?=$page;?>?page=<?=($max-1);?>"><span><?=($max-1);?></span></a></li>
@@ -94,26 +94,38 @@ $newResult = array();
                         </div>
                         <div class="col-md-4"></div>
                     </div>-->
-                    <div class="asingakub-gesoupem <?=$group;?>">
-                    <? $i = 0; //pp($arrElements);
-                    foreach ($arElements as $element) { ?>
-                        <div class="kartochka">
-                            <a class="fancybox" href="<?=$element['UF_FILE']?>"
-                               data-fancybox="color-gallery"
-                               data-caption="<?=$element['UF_NAME'];?>">
-                                <img src="<?=$element['UF_FILE']?>" alt="<?=$element['UF_NAME'];?>" />
-                            </a>
-                            <p><?=$element['UF_NAME'];?></p>
+                    <? $max = count($arElements); ?>
+                    <div class="asingakub-gesoupem <?=$group;?>" data-number="" data-max="<?=$max?>" data-size="<?=$size?>">
+                        <? if ($max <= $size)
+                            echo_Elements(0, $max, $arElements);
+                        else
+                            echo_Elements(0, $size, $arElements); ?>
+                    </div>
+
+                    <div class="fx-pagination">
+                        <div class="fx-pagination-container">
+                    <? if ($max > $size) {
+                        echo_Pagination(1, $max);
+                    } ?><div class="accordion-card-footer" id="footing-<?=$group?>">
+                        <button class="collapsed" type="button" data-toggle="collapse" onclick="hide('<?=$group;?>')" data-target="#collapse-<?=$group?>"
+                                aria-expanded="false" aria-controls="collapse-<?=$group?>">
+                            <sup class=""></sup>
+                            <span class="plus"></span>
+                        </button>
+                    </div><div style="clear:both"></div>
+
                         </div>
-                    <? } ?>
                     </div>
                 </div>
             </div>
+
         </div>
         <? } ?>
     </div>
 </div>
 <? } ?>
+
+
 
 <script>
     var button = document.getElementById("control");
@@ -138,6 +150,14 @@ $newResult = array();
 
         spanShow.className = "hide";
         spanHide.className = "show";
+    }
+
+    function hide(group) {
+        var buttonElement = document.querySelector('#heading-' + group + ' [type="button"]');
+        if (buttonElement) {
+            buttonElement.scrollIntoView();
+            buttonElement.className = 'collapsed';
+        }
     }
 
     button.addEventListener("click", clickAll);
