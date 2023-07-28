@@ -1,0 +1,21 @@
+.mats-element {
+	margin-bottom: 18px;
+	text-align: center;	
+	border-radius: 4px;
+	padding: 17px;	
+}
+
+.mats-pict {
+	min-height: 105px;
+}
+.mats-name {
+	height: 30px;
+	overflow: hidden;
+	font-size: 12px;
+	line-height: 15px;
+}
+.mats1element a{color:black;}
+
+.fancybox-thumbs__list {
+	max-height: 90vh;
+}
