@@ -13,7 +13,7 @@ class TrigranHLelementsDisplay {
 	public function __construct($arIds) {
 		$this->HlIds=$arIds;
 		//составляем словарь соответствия названия свойства и его значениям в разных HL блоках
-        $props = ['UF_GROUP', 'UF_SUBSECT', 'UF_NALICHIE'];//!to do: можно вынести в параметры компонента (в порядке вложенности разделов)
+        $props = ['UF_GROUP', 'UF_SUBSECT'];//!to do: можно вынести в параметры компонента (в порядке вложенности разделов)
         $this->ufCodes = $props;
         foreach ($props as $prop)
 		    $this->GetPropertyIdsByName($prop);
@@ -27,16 +27,26 @@ class TrigranHLelementsDisplay {
             $materialEnumIds['Под заказ'][]=0;
             $this->arNameIds[$ufcode] = $materialEnumIds;
         }
-
-		$rsType = CUserFieldEnum::GetList(array(), array(
-			'USER_FIELD_NAME' => $ufcode,
-			));
-			foreach($rsType->arResult as $arType) {
-				$MatName=$arType["VALUE"];
-				$materialEnumIds[$MatName][]=$arType["ID"];
-			}
-		$this->arNameIds[$ufcode] = $materialEnumIds;
+        else {
+            $rsType = CUserFieldEnum::GetList(array(), array(
+                'USER_FIELD_NAME' => $ufcode,
+            ));
+            foreach($rsType->arResult as $arType) {
+                $MatName=$arType["VALUE"];
+                $materialEnumIds[$MatName][]=$arType["ID"];
+            }
+            $this->arNameIds[$ufcode] = $materialEnumIds;
+        }
 	}
+
+    public function GetPropertyCodeByName($search_name) {
+        foreach ($this->arNameIds as $ufCode => $elems) {
+            foreach ($elems as $name => $arrId) {
+                if ($name == $search_name)
+                    return $arrId[0];
+            }
+        }
+    }
 
 	//готовим массив для вывода в шаблоне
 	public function MakeArray() {
@@ -48,6 +58,33 @@ class TrigranHLelementsDisplay {
 			}
 	    return $this->arResult;
 	}
+
+    //функция считает количество конечных массивов внутри вложенного массива
+    function countFinalArrays($array) {
+        $count = 0;
+        foreach ($array as $value) {
+            if (is_array($value)) {
+                $hasNestedArray = false;
+                foreach ($value as $nestedValue) {
+                    if (is_array($nestedValue)) {
+                        $hasNestedArray = true;
+                        break;
+                    }
+                }
+                if (!$hasNestedArray) {
+                    $count++;
+                } else {
+                    $count += $this->countFinalArrays($value);
+                }
+            }
+        }
+
+        return $count;
+    }
+
+    public function GetCountResultByCategory($name) {
+        return $this->countFinalArrays($this->arResult[$name]);
+    }
 	
 	//Группировка по свойствам и обработка полей
 	public function GroupByProperties($data) {
@@ -55,18 +92,23 @@ class TrigranHLelementsDisplay {
             $group_list_item_names = [];
             $group_list_item_ids = [];
             foreach ($this->ufCodes as $ufCode) {
-                /*if($ufcode=='UF_NALICHIE') {
-                    if ($element['UF_NALICHIE'])
-                        $group_list_item_names[] = 'В наличии';
-                    else
-                        $group_list_item_names[] = 'Под заказ';
-                } else {*/
+                if($ufcode=='UF_NALICHIE') {
+                } else {
                     //получаем название свойства из словаря по его ID
                     $group_list_item_id = $element[$ufCode];
                     if (!$group_list_item_id) continue;
-                    else $group_list_item_ids[] = $group_list_item_id;
-                    $group_list_item_names[] = $this->getPropertyElementName($ufCode, $group_list_item_id);
+                    else {
+                        $group_list_item_ids[] = $group_list_item_id;
+                        $group_list_item_names[] = $this->getPropertyElementName($ufCode, $group_list_item_id);
+                    }
+                }
             }
+            if (!isset($element['UF_NALICHIE']))
+                ;
+            elseif ($element['UF_NALICHIE'])
+                $group_list_item_names[] = 'В наличии';
+            elseif (!$element['UF_NALICHIE'])
+                $group_list_item_names[] = 'Под заказ';
 			
 			//обработка изображения и содание превью 
 			$file = CFile::GetFileArray($element['UF_FILE']);
@@ -74,47 +116,29 @@ class TrigranHLelementsDisplay {
 			$tmpImg=CFile::ResizeImageGet($element['UF_FILE'], array('width' => 200, 'height' => 200), BX_RESIZE_IMAGE_EXACT, true);
 			$element["PREVIEW_SRC"]=$tmpImg["src"];
 
-            /*for ($i = 0; $i < count($group_list_item_names); $i++) {
-                $group_list_item_id = $group_list_item_ids[$i];
-                $group_list_item_name = $group_list_item_names[$i];
+            for ($i = 0; $i < count($this->ufCodes); $i++) {
                 $ufCode = $this->ufCodes[$i];
-                //сохраняем ID элемента списка для дополнительной маркировки элементов в шаблоне для проверки
-                $this->arResult[$group_list_item_name][$ufCode."_ID"] = $group_list_item_id;
                 unset($element[$ufCode]);
-            }*/
-
-
-            $this->processKeys($this->arResult, $group_list_item_names, $element['UF_NAME']);
-
-            /*foreach ($group_list_item_names as $prop) {
-                if ($lastProp) {
-                    $this->arResult[$lastProp] = [$prop => $element];
-                    $lastProp = $prop;
-                } else {
-                    $this->arResult[$prop] = $element;
-                    $lastProp = $prop;
-                }
             }
-                //Группировка по наличию/под заказ (UF_NALICHIE)
-                if($group_list_item_name) {
-                    if ($element['UF_NALICHIE'] == true)
-                        $this->arResult[$group_list_item_name]["ELEMENTS_V_NALICHII"][]=$element;
-                    else
-                        $this->arResult[$group_list_item_name]["ELEMENTS_POD_ZAKAZ"][]=$element;
-                }*/
+
+            if (count($group_list_item_names)>1)
+            $this->processKeys($this->arResult, $group_list_item_names, $element);
 		}			
 	}
 
     //добавляет значение в результирующий массив по цепочке переданных ключей
     function processKeys(&$result, $keys, $value) {
         $currentArray = &$result;
-        foreach ($keys as $key) {
+        $numKeys = count($keys);
+        foreach ($keys as $index => $key) {
             if (!isset($currentArray[$key])) {
                 $currentArray[$key] = [];
             }
+            if ($index === $numKeys - 1) {
+                $currentArray[$key][] = $value;
+            }
             $currentArray = &$currentArray[$key];
         }
-        $currentArray[] = $value;
     }
 	
 	//возращает название свойства по ID значения списка из словаря
