@@ -116,13 +116,14 @@ class TrigranHLelementsDisplay {
 			$tmpImg=CFile::ResizeImageGet($element['UF_FILE'], array('width' => 200, 'height' => 200), BX_RESIZE_IMAGE_EXACT, true);
 			$element["PREVIEW_SRC"]=$tmpImg["src"];
 
-            for ($i = 0; $i < count($this->ufCodes); $i++) {
-                $ufCode = $this->ufCodes[$i];
+            foreach ($this->ufCodes as $ufCode) {
                 unset($element[$ufCode]);
             }
 
-            if (count($group_list_item_names)>1)
-            $this->processKeys($this->arResult, $group_list_item_names, $element);
+            if (count($group_list_item_names)>1) {
+                $this->processKeys2($this->arResult, $group_list_item_names, $element);
+                //$this->recursiveSortArray($this->arResult);
+            }
 		}			
 	}
 
@@ -139,6 +140,55 @@ class TrigranHLelementsDisplay {
             }
             $currentArray = &$currentArray[$key];
         }
+    }
+
+    function processKeys2(&$result, $keys, $value) {
+        $currentArray = &$result;
+        $numKeys = count($keys);
+        $isSorted = false;
+
+        foreach ($keys as $index => $key) {
+            if (!isset($currentArray[$key])) {
+                // Получаем ключи, которых еще нет в массиве
+                $remainingKeys = array_slice($keys, $index);
+                // Создаем многомерные массивы для отсутствующих ключей
+                $missingArrays = array_fill_keys($remainingKeys, []);
+                // Объединяем отсутствующие массивы с текущим массивом
+                $currentArray = array_merge($currentArray, $missingArrays);
+                $isSorted = true;
+            }
+
+            if ($index === $numKeys - 1 && !empty($value)) {
+                // Проверяем, является ли элемент массивом и сортируем его по полю 'UF_NAME'
+                if (is_array($currentArray[$key])) {
+                    $currentArray[$key][] = $value;
+                    usort($currentArray[$key], function($a, $b) {
+                        return strcmp($a['UF_NAME'], $b['UF_NAME']);
+                    });
+                }
+            }
+
+            if ($isSorted) {
+                ksort($currentArray);
+            }
+
+            $currentArray = &$currentArray[$key];
+        }
+    }
+
+    //сортирует в приоритете по значениям, но и по ключам
+    function recursiveSortArray(&$array) {
+        if (!is_array($array)) {
+            return;
+        }
+
+        foreach ($array as &$value) {
+            $this->recursiveSortArray($value);
+        }
+
+        uksort($array, function ($a, $b) {
+            return strnatcmp($a, $b);
+        });
     }
 	
 	//возращает название свойства по ID значения списка из словаря

@@ -11,7 +11,7 @@ $object->processKeys($result, $keys3, 'value');
 pp($result);*/
 $arResult = $object->MakeArray();
 //pp($object->arNameIds);
-//pp($arResult);
+pp($arResult);
 
 //словарь соответствия названия типа материала его значениям в разных HL блоках (UF_GROUP)
 // pp($object->arMaterialNames);
@@ -61,7 +61,9 @@ function echoElements($elements, $groupId) { ?>
 ?>
 <div class="row">
 	<div class="col-md-12">
-	<?foreach ($arResult as $name => $subs) {?>
+	<?foreach ($arResult as $name => $subs) {
+        $count = $object->GetCountResultByCategory($name);
+        if ($count != 0) {?>
 			<div class="accordion-type-1">
 				<div class="item-accordion-wrapper bordered box-shadow">
                     <?//=$name?>
@@ -77,7 +79,7 @@ function echoElements($elements, $groupId) { ?>
 							<?=$name?>
 						</span>
 						<span class="element-count muted font_xs rounded3">
-							<?=count($subs)?>
+							<?=$count?>
 						</span>
 					</div>
 
@@ -109,6 +111,7 @@ function echoElements($elements, $groupId) { ?>
                     <?}?>
 				</div><!--item-accordion-wrapper-->
 			</div><!--accordion-type-1-->
+        <?}?>
 	<?}?>
 	</div>
 </div>
