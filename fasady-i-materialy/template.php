@@ -10,8 +10,6 @@ $keys3 = ['key1', 'key2', 'key4']; // Массив с ключами
 $object->processKeys($result, $keys3, 'value');
 pp($result);*/
 $arResult = $object->MakeArray();
-//pp($object->arNameIds);
-//pp($arResult);
 
 //словарь соответствия названия типа материала его значениям в разных HL блоках (UF_GROUP)
 // pp($object->arMaterialNames);
@@ -89,13 +87,11 @@ function echoElements($elements, $groupId) { ?>
 							<div class="row">
                                 <div class="col-md-12">
                                     <? foreach ($subs as $subName => $sub) { ?>
-                                        <?//pp(is_array($material[0]));?>
-                                        <?//pp($material)?>
                                         <?if (!is_array($sub[0])) {//Фрезеровки?>
                                             <?//pp($sub)?>
                                             <h3><?=$subName?></h3>
                                             <?foreach ($sub as $name => $group) {?>
-                                                <h4><?=$name?></h4>
+                                                <!--<h4><?=$name?></h4>-->
                                                 <?echoElements($group, $groupId);?>
                                             <?}?>
                                         <?} else {?>

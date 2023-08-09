@@ -8,6 +8,7 @@ class TrigranHLelementsDisplay {
 	public $HlIds;
     public $ufCodes=[];
 	public $arNameIds=[];
+	public $arNameSorts=[];
 	public $arResult=[];
 
 	public function __construct($arIds) {
@@ -19,7 +20,7 @@ class TrigranHLelementsDisplay {
 		    $this->GetPropertyIdsByName($prop);
 	}
 
-	//составляет массив вида [ "VALUE" => [ "ID" ] ] для свойства типа список
+	//составляет массив вида [ "UF_CODE" => [ "ID" ] ] для свойства типа список
 	public function GetPropertyIdsByName($ufcode) {
 		if($ufcode=='') return false;
 		if($ufcode=='UF_NALICHIE') {
@@ -34,8 +35,14 @@ class TrigranHLelementsDisplay {
             foreach($rsType->arResult as $arType) {
                 $MatName=$arType["VALUE"];
                 $materialEnumIds[$MatName][]=$arType["ID"];
+                if ($ufcode=='UF_SUBSECT') {
+                    $materialEnumSorts[$arType["SORT"]]= $MatName;
+                }
             }
             $this->arNameIds[$ufcode] = $materialEnumIds;
+            if ($ufcode=='UF_SUBSECT') {
+                $this->arNameSorts[$ufcode] = $materialEnumSorts;
+            }
         }
 	}
 
@@ -103,12 +110,10 @@ class TrigranHLelementsDisplay {
                     }
                 }
             }
-            if (!isset($element['UF_NALICHIE']))
-                $group_list_item_names[] = ' ';
+            if (!isset($element['UF_NALICHIE']) || !$element['UF_NALICHIE'])
+                $group_list_item_names[] = 'Под заказ';
             elseif ($element['UF_NALICHIE'])
                 $group_list_item_names[] = 'В наличии';
-            elseif (!$element['UF_NALICHIE'])
-                $group_list_item_names[] = 'Под заказ';
 			
 			//обработка изображения и содание превью 
 			$file = CFile::GetFileArray($element['UF_FILE']);
@@ -133,6 +138,7 @@ class TrigranHLelementsDisplay {
                 $this->processKeys2($this->arResult, $group_list_item_names, $element);
                 //$this->recursiveSortArray($this->arResult);
             }
+            $this->sortByKeysFrezerovki();
 		}			
 	}
 
@@ -149,6 +155,16 @@ class TrigranHLelementsDisplay {
             }
             $currentArray = &$currentArray[$key];
         }
+    }
+
+    public function sortByKeysFrezerovki()
+    {
+        $result = [];
+        foreach ($this->arNameSorts['UF_SUBSECT'] as $sort => $nameGroup) {
+            if (count($this->arResult['Фрезеровка'][$nameGroup]) != 0)
+                $result[$nameGroup] = $this->arResult['Фрезеровка'][$nameGroup];
+        }
+        $this->arResult['Фрезеровка'] = $result;
     }
 
     function processKeys2(&$result, $keys, $value) {
@@ -171,8 +187,13 @@ class TrigranHLelementsDisplay {
                 // Проверяем, является ли элемент массивом и сортируем его по полю 'UF_NAME'
                 if (is_array($currentArray[$key])) {
                     $currentArray[$key][] = $value;
-                    usort($currentArray[$key], function($a, $b) {
-                        return strcmp($a['UF_NAME'], $b['UF_NAME']);
+                    $rusCollator = new \Collator('ru_RU');
+                    usort($currentArray[$key], function($a, $b) use ($rusCollator) {
+                        $result = $rusCollator->compare($a['UF_NAME'], $b['UF_NAME']);
+                        if ($result == 0) {
+                            return strcasecmp($a['UF_NAME'], $b['UF_NAME']);
+                        }
+                        return $result;
                     });
                 }
             }
