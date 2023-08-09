@@ -104,7 +104,7 @@ class TrigranHLelementsDisplay {
                 }
             }
             if (!isset($element['UF_NALICHIE']))
-                ;
+                $group_list_item_names[] = ' ';
             elseif ($element['UF_NALICHIE'])
                 $group_list_item_names[] = 'В наличии';
             elseif (!$element['UF_NALICHIE'])
@@ -119,6 +119,15 @@ class TrigranHLelementsDisplay {
             foreach ($this->ufCodes as $ufCode) {
                 unset($element[$ufCode]);
             }
+            unset($element['UF_MAIN']);
+            unset($element['UF_NALICHIE']);
+            unset($element['UF_XML_ID']);
+            unset($element['UF_LINK']);
+            unset($element['UF_DESCRIPTION']);
+            unset($element['UF_FULL_DESCRIPTION']);
+            unset($element['UF_SORT']);
+            unset($element['UF_DEF']);
+            unset($element['UF_FILE']);
 
             if (count($group_list_item_names)>1) {
                 $this->processKeys2($this->arResult, $group_list_item_names, $element);

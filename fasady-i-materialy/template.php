@@ -11,7 +11,7 @@ $object->processKeys($result, $keys3, 'value');
 pp($result);*/
 $arResult = $object->MakeArray();
 //pp($object->arNameIds);
-pp($arResult);
+//pp($arResult);
 
 //словарь соответствия названия типа материала его значениям в разных HL блоках (UF_GROUP)
 // pp($object->arMaterialNames);
