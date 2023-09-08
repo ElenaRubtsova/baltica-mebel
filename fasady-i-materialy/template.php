@@ -1,5 +1,5 @@
 <?
-$object = new TrigranHLelementsDisplay([7,8,9,22,24,26]);
+$object = new TrigranHLelementsDisplay([7,8,9,22,24,26,27]);
 
 /*$result =[];
 $keys = ['key1', 'key2', 'key3']; // Массив с ключами
@@ -13,6 +13,7 @@ $arResult = $object->MakeArray();
 
 //словарь соответствия названия типа материала его значениям в разных HL блоках (UF_GROUP)
 // pp($object->arMaterialNames);
+//pp($object->arNameSorts);
 
 //массив для вывода
  //pp($arResult);
@@ -89,14 +90,18 @@ function echoElements($elements, $groupId) { ?>
                                     <? foreach ($subs as $subName => $sub) { ?>
                                         <?if (!is_array($sub[0])) {//Фрезеровки?>
                                             <?//pp($sub)?>
-                                            <h3><?=$subName?></h3>
-                                            <?foreach ($sub as $name => $group) {?>
-                                                <!--<h4><?=$name?></h4>-->
-                                                <?echoElements($group, $groupId);?>
+                                            <?if(!empty($sub)) {?>
+                                                <h3><?=$subName?></h3>
+                                                <?foreach ($sub as $name => $group) {?>
+                                                    <!--<h4><?=$name?></h4>-->
+                                                    <?echoElements($group, $groupId);?>
+                                                <?}?>
                                             <?}?>
                                         <?} else {?>
-                                            <h3><?=$subName?></h3>
-                                            <?echoElements($sub, $groupId);?>
+                                            <?if(!empty($sub)) {?>
+                                                <h3><?=$subName?></h3>
+                                                <?echoElements($sub, $groupId);?>
+                                            <?}?>
                                         <?}?>
                                     <?}?>
                                 </div>

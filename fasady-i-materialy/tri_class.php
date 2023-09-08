@@ -17,11 +17,11 @@ class TrigranHLelementsDisplay {
         $props = ['UF_GROUP', 'UF_SUBSECT'];//!to do: можно вынести в параметры компонента (в порядке вложенности разделов)
         $this->ufCodes = $props;
         foreach ($props as $prop)
-		    $this->GetPropertyIdsByName($prop);
+		    $this->SetPropertyIdsByName($prop);
 	}
 
 	//составляет массив вида [ "UF_CODE" => [ "ID" ] ] для свойства типа список
-	public function GetPropertyIdsByName($ufcode) {
+	public function SetPropertyIdsByName($ufcode) {
 		if($ufcode=='') return false;
 		if($ufcode=='UF_NALICHIE') {
             $materialEnumIds['В наличии'][]=1;
@@ -36,7 +36,7 @@ class TrigranHLelementsDisplay {
                 $MatName=$arType["VALUE"];
                 $materialEnumIds[$MatName][]=$arType["ID"];
                 if ($ufcode=='UF_SUBSECT') {
-                    $materialEnumSorts[$arType["SORT"]]= $MatName;
+                    $materialEnumSorts[$arType["SORT"]][$MatName] = $arType["ID"];
                 }
             }
             $this->arNameIds[$ufcode] = $materialEnumIds;
@@ -71,6 +71,9 @@ class TrigranHLelementsDisplay {
         $count = 0;
         foreach ($array as $value) {
             if (is_array($value)) {
+                if (empty($value)) { // Проверяем пустой массив
+                    continue; // Пропускаем, если пустой
+                }
                 $hasNestedArray = false;
                 foreach ($value as $nestedValue) {
                     if (is_array($nestedValue)) {
@@ -78,7 +81,7 @@ class TrigranHLelementsDisplay {
                         break;
                     }
                 }
-                if (!$hasNestedArray) {
+                if (!$hasNestedArray) { // Проверяем внутренний массив
                     $count++;
                 } else {
                     $count += $this->countFinalArrays($value);
@@ -90,6 +93,7 @@ class TrigranHLelementsDisplay {
     }
 
     public function GetCountResultByCategory($name) {
+        //pp($this->arResult[$name]);
         return $this->countFinalArrays($this->arResult[$name]);
     }
 	
@@ -121,9 +125,6 @@ class TrigranHLelementsDisplay {
 			$tmpImg=CFile::ResizeImageGet($element['UF_FILE'], array('width' => 200, 'height' => 200), BX_RESIZE_IMAGE_EXACT, true);
 			$element["PREVIEW_SRC"]=$tmpImg["src"];
 
-            foreach ($this->ufCodes as $ufCode) {
-                unset($element[$ufCode]);
-            }
             unset($element['UF_MAIN']);
             unset($element['UF_NALICHIE']);
             unset($element['UF_XML_ID']);
@@ -138,7 +139,12 @@ class TrigranHLelementsDisplay {
                 $this->processKeys2($this->arResult, $group_list_item_names, $element);
                 //$this->recursiveSortArray($this->arResult);
             }
-            $this->sortByKeysFrezerovki();
+            $this->sortByKeysGroup('Фрезеровка');
+            $this->sortByKeysGroup('ЛДСП');//добавить автоматическую сортировку - цикл по всем группам
+
+            foreach ($this->ufCodes as $ufCode) {
+                unset($element[$ufCode]);
+            }
 		}			
 	}
 
@@ -157,14 +163,18 @@ class TrigranHLelementsDisplay {
         }
     }
 
-    public function sortByKeysFrezerovki()
+    public function sortByKeysGroup($name)
     {
         $result = [];
-        foreach ($this->arNameSorts['UF_SUBSECT'] as $sort => $nameGroup) {
-            if (count($this->arResult['Фрезеровка'][$nameGroup]) != 0)
-                $result[$nameGroup] = $this->arResult['Фрезеровка'][$nameGroup];
+        foreach ($this->arNameSorts['UF_SUBSECT'] as $sort => $arrProps ) {
+            foreach ($arrProps as $propName => $propId) {
+                if (count($this->arResult[$name][$propName]) != 0) {
+                    $result[$propName] = $this->arResult[$name][$propName];
+                }
+            }
         }
-        $this->arResult['Фрезеровка'] = $result;
+        if ($result)
+            $this->arResult[$name] = $result;
     }
 
     function processKeys2(&$result, $keys, $value) {
@@ -206,21 +216,6 @@ class TrigranHLelementsDisplay {
         }
     }
 
-    //сортирует в приоритете по значениям, но и по ключам
-    function recursiveSortArray(&$array) {
-        if (!is_array($array)) {
-            return;
-        }
-
-        foreach ($array as &$value) {
-            $this->recursiveSortArray($value);
-        }
-
-        uksort($array, function ($a, $b) {
-            return strnatcmp($a, $b);
-        });
-    }
-	
 	//возращает название свойства по ID значения списка из словаря
 	public function getPropertyElementName($ufcode, $group_list_item_id) {
         foreach($this->arNameIds[$ufcode] as $name=>$arrIds) {
