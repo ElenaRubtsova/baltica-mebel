@@ -15,18 +15,18 @@
         ?>
         <div class="bx_item_detail_size" style=""
              data-display_type="LI">
-        <? if(count($prop['VALUES']) > 0) :?>
+        <? if(is_array($prop['VALUES']) && count($prop['VALUES']) > 0) :?>
             <span class="show_class bx_item_section_name"><span><?=$prop['NAME']?>
                     <? //pp(count($prop['VALUES']));?>
                     <? if(count($prop['VALUES']) > 1) :?>
-                    <span class="sku_mdash">—</span><span
-                            class="val"><?=$arParams['PROPERTIES'][$code]['VALUE']?></span></span>
+                    <span class="sku_mdash">—</span><span id="<?=$arParams['PROPERTIES'][$code]['VALUE'];?>"
+                            class="value"><?=$arParams['PROPERTIES'][$code]['VALUE']?></span></span>
                 <? endif;?>
             </span>
         <? endif;?>
             <div class="bx_size_scroller_container scrollblock scrollblock--ob-auto">
                 <div class="bx_size">
-                    <ul id="bx_117848907_188306_prop_3580_list"
+                    <ul
                         class="list_values_wrapper">
                         <? foreach ($prop['VALUES'] as $size) {
                             if ($size['VALUE'] !== '') {

@@ -168,7 +168,7 @@ class TrigranHLelementsDisplay {
         $result = [];
         foreach ($this->arNameSorts['UF_SUBSECT'] as $sort => $arrProps ) {
             foreach ($arrProps as $propName => $propId) {
-                if (count($this->arResult[$name][$propName]) != 0) {
+                if (($this->arResult[$name][$propName] !== null) && (count($this->arResult[$name][$propName]) != 0)) {
                     $result[$propName] = $this->arResult[$name][$propName];
                 }
             }

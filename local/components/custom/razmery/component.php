@@ -165,13 +165,19 @@ if ($arParams['OBSHCHIY_ID'] != '') {//echo 9;
         //$arResult["DOP_PARAMS"]["DLINA_COUNT"] = count($arResult["DOP_PARAMS"]["DLINA"]);
         //$arResult["DOP_PARAMS"]["VYSOTA_COUNT"] = count($arResult["DOP_PARAMS"]["VYSOTA"]);
         //$arResult["DOP_PARAMS"]["GLUBINA_COUNT"] = count($arResult["DOP_PARAMS"]["GLUBINA"]);
+        //pp($arResult["DOP_PARAMS"]);
+        //pp($arResult["DOP_PARAMS"]);
         foreach ($arResult["DOP_PARAMS"] as $code => &$par) {
             //echo $arParams['PROPERTIES'][$code]['NAME'];
-            foreach ($par as $key => $props) {
+            //pp($par);
+            foreach ($par['VALUES'] as $key => $props) {
+               //pp($key);
+               //pp($arParams['PROPERTIES'][$code]['VALUE']);
+               //pp($props);
                 if ($props['VALUE'] === $arParams['PROPERTIES'][$code]['VALUE']) {
                     $props['ACTIVE'] = 'Y';
                 }
-                $props['VALUE'] = ($props['VALUE'] / 10);
+                $props['VALUE'] = ((int)$props['VALUE'] / 10);
             }
         }
         if (isset($arResult["DOP_PARAMS"])) {
