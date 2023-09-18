@@ -256,6 +256,7 @@ $currentProductId = $templateData['OFFERS_INFO']["CURRENT_OFFER"] ?? $arResult['
 					"COUNT_SERVICES_IN_ANNOUNCE" => $bShowAllServicesInAnounce ? $arParams["COUNT_SERVICES_IN_ANNOUNCE"] : 0,
 					//"SHOW_PLACE" => 'announce',
 					"COMPACT_MODE" => 'Y',
+					"COMPATIBLE_MODE" => "Y",
 				],
 				false, array("HIDE_ICONS"=>"Y")
 			);?>
@@ -299,6 +300,7 @@ $currentProductId = $templateData['OFFERS_INFO']["CURRENT_OFFER"] ?? $arResult['
 					"PRICE_VAT_INCLUDE" => $arParams["PRICE_VAT_INCLUDE"] ? 'Y' : 'N',
 					"PAGE_ELEMENT_COUNT" => '999',
 					"COUNT_SERVICES_IN_ANNOUNCE" => $arParams["COUNT_SERVICES_IN_ANNOUNCE"],
+					"COMPATIBLE_MODE" => "Y",
 				],
 				false, array("HIDE_ICONS"=>"Y")
 			);?>
@@ -777,6 +779,8 @@ $currentProductId = $templateData['OFFERS_INFO']["CURRENT_OFFER"] ?? $arResult['
 															"SHOW_RATING" => "Y",
 															"RATING_TYPE" => "like_graphic_catalog_reviews",
 															"MAX_IMAGE_SIZE" => $arParams["MAX_IMAGE_SIZE"],
+															"MAX_IMAGE_COUNT" => $arParams["MAX_IMAGE_COUNT"],
+															"NO_USE_IMAGE" => $arParams["NO_USE_IMAGE"],
 															"BLOG_URL" => $arParams["BLOG_URL"],
 															"REVIEW_COMMENT_REQUIRED" => $arParams["REVIEW_COMMENT_REQUIRED"],
 															"REVIEW_FILTER_BUTTONS" => $arParams["REVIEW_FILTER_BUTTONS"],
@@ -1814,6 +1818,11 @@ if (isset($templateData['CHARACTERISTICS']) && $templateData['CHARACTERISTICS'] 
 }
 if (isset($templateData['JS_OBJ'])) {
 	$arScripts[] = 'ikSelect';
-}?>
+}
+if ($bShowAdditionalGallery) {
+	$arScripts[] = 'gallery_small';
+}
 
-<?\Aspro\Max\Functions\Extensions::init($arScripts);?>
+\Aspro\Max\Functions\Extensions::init($arScripts);
+?>
+<script>typeof useCountdown === 'function' && useCountdown()</script>

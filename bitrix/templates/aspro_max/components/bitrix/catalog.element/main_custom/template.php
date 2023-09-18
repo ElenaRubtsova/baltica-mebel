@@ -10,6 +10,7 @@
 				unset($arResult['PRODUCT_PROPERTIES'][$propID]);
 		}
 	}
+	$templateData["USE_OFFERS_SELECT"] = false;
 	$arResult["EMPTY_PROPS_JS"]="Y";
 	$emptyProductProperties = empty($arResult['PRODUCT_PROPERTIES']);
 	if (!$emptyProductProperties){
@@ -41,7 +42,7 @@
 	<?}?>
 </div>
 
-<?if ($arResult['SKU_CONFIG']):?><div class="js-sku-config" data-params='<?=str_replace('\'', '"', CUtil::PhpToJSObject($arResult['SKU_CONFIG'], false))?>'></div><?endif;?>
+<?if ($arResult['SKU_CONFIG']):?><div class="js-sku-config" data-params='<?=\Aspro\Max\Product\SkuTools::getSignedParams($arResult['SKU_CONFIG'])?>'></div><?endif;?>
 
 <?
 $currencyList = '';
@@ -1098,21 +1099,21 @@ $iCountProps = count($arResult['DISPLAY_PROPERTIES']) + $offerPropCount;
 								<div class="js-prices-in-side product-action">
 									<div class="buy_block">
 										<?if($arResult["OFFERS"] && $showCustomOffer):?>
-											<div class="sku_props inner_content js_offers__<?=$arResult['ID'];?>_detail">
+											<template class="offers-template-json">
+												<?=\Aspro\Max\Product\SkuTools::getOfferTreeJson($arResult["OFFERS"])?>
+											</template>
+											<script>typeof useOfferSelect === 'function' && useOfferSelect()</script>
+											<?$templateData["USE_OFFERS_SELECT"] = true;?>
+											<div class="sku_props inner_content js_offers__<?=$arResult['ID'];?>_detail load-offer-js">
 												<?if (!empty($arResult['OFFERS_PROP'])){?>
-                                                    <div class="bx_catalog_item_scu wrapper_sku sku_in_detail"
-                                                         id="<? echo $arItemIDs["ALL_ITEM_IDS"]['PROP_DIV']; ?>"
-                                                         data-site_id="<?=SITE_ID;?>" data-id="<?=$arResult["ID"];?>"
-                                                         data-offer_id="<?=$arResult["OFFERS"][$arResult["OFFERS_SELECTED"]]["ID"];?>"
-                                                         data-propertyid="<?=$arResult["OFFERS"][$arResult["OFFERS_SELECTED"]]["PROPERTIES"]["CML2_LINK"]["ID"];?>"
-                                                         data-offer_iblockid="<?=$arResult["OFFERS"][$arResult["OFFERS_SELECTED"]]["IBLOCK_ID"];?>"
-                                                         data-iblockid="<?=$arResult["IBLOCK_ID"];?>">
+													<div class="bx_catalog_item_scu wrapper_sku sku_in_detail" id="<? echo $arItemIDs["ALL_ITEM_IDS"]['PROP_DIV']; ?>"
+													data-site_id="<?=SITE_ID;?>" data-id="<?=$arResult["ID"];?>" data-offer_id="<?=$arResult["OFFERS"][$arResult["OFFERS_SELECTED"]]["ID"];?>" data-propertyid="<?=$arResult["OFFERS"][$arResult["OFFERS_SELECTED"]]["PROPERTIES"]["CML2_LINK"]["ID"];?>" data-offer_iblockid="<?=$arResult["OFFERS"][$arResult["OFFERS_SELECTED"]]["IBLOCK_ID"];?>" data-iblockid="<?=$arResult["IBLOCK_ID"];?>">
 
-                                                    <?foreach ($arSkuTemplate as $code => $strTemplate){
+														<?foreach ($arSkuTemplate as $code => $strTemplate){
 															if (!isset($arResult['OFFERS_PROP'][$code]))
 																continue;
 															echo '<div class="item_wrapper">', str_replace('#ITEM#_prop_', $arItemIDs["ALL_ITEM_IDS"]['PROP'], $strTemplate), '</div>';
-														} ?>
+														}?>
                                                         <div class="item_wrapper">
                                                         <? $APPLICATION->IncludeComponent(
                                                             "custom:razmery",
@@ -1429,19 +1430,7 @@ $iCountProps = count($arResult['DISPLAY_PROPERTIES']) + $offerPropCount;
 				</div>
 
 				<?//small gallery?>
-				<div class="small-gallery-block"<?=($bShowSmallGallery ? '' : ' style="display:none;"');?>>
-					<div class="row flexbox flexbox--row">
-						<?foreach($additionalGallery as $i => $arPhoto):?>
-							<div class="col-md-3 col-sm-4 col-xs-6">
-								<div class="item">
-									<div class="wrap"><a href="<?=$arPhoto['DETAIL']['SRC']?>" class="fancy" data-fancybox="small-gallery" target="_blank" title="<?=$arPhoto['TITLE']?>">
-										<img data-src="<?=$arPhoto['PREVIEW']['src']?>" src="<?=\Aspro\Functions\CAsproMax::showBlankImg($arPhoto['PREVIEW']['src']);?>" class="lazy img-responsive inline" title="<?=$arPhoto['TITLE']?>" alt="<?=$arPhoto['ALT']?>" /></a>
-									</div>
-								</div>
-							</div>
-						<?endforeach;?>
-					</div>
-				</div>
+				<?\Aspro\Functions\CAsproMax::showSmallGallery(['IS_ACTIVE' => $bShowSmallGallery], $additionalGallery);?>
 			</div>
 		</div>
 	<?$this->EndViewTarget();?>

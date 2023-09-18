@@ -1375,7 +1375,7 @@ if($arParams['LINKED_FILTER_BY_PROP']['EXPANDABLES'] || $arParams['LINKED_FILTER
 
 /*brand item*/
 $arBrand = array();
-if(strlen($arResult["DISPLAY_PROPERTIES"]["BRAND"]["VALUE"]) && $arResult["PROPERTIES"]["BRAND"]["LINK_IBLOCK_ID"]){
+if(($arResult["DISPLAY_PROPERTIES"]["BRAND"]["VALUE"] ?? false) && $arResult["PROPERTIES"]["BRAND"]["LINK_IBLOCK_ID"]){
 	$arBrand = CMaxCache::CIBLockElement_GetList(array('CACHE' => array("MULTI" =>"N", "TAG" => CMaxCache::GetIBlockCacheTag($arResult["PROPERTIES"]["BRAND"]["LINK_IBLOCK_ID"]))), array("IBLOCK_ID" => $arResult["PROPERTIES"]["BRAND"]["LINK_IBLOCK_ID"], "ACTIVE"=>"Y", "ID" => $arResult["DISPLAY_PROPERTIES"]["BRAND"]["VALUE"]));
 
 	$arBrand['CATALOG_PAGE_URL'] = $arResult['SECTION']['SECTION_PAGE_URL'] . 'filter/brand-is-' . $arBrand['CODE'] . '/apply/';
@@ -1534,67 +1534,10 @@ if(!empty($arResult['DISPLAY_PROPERTIES']))
 	}
 	$arResult["GROUPS_PROPS"] = $arGroupsProp;
 }
-/*
-if ($arResult['PROPERTIES']['OBSHCHIY_IDENTIFIKATOR_DLYA_SAYTA']['VALUE'] != '') {
-	$arSelect = array(
-		"ID",
-		"IBLOCK_ID",
-		"NAME",
-		"PROPERTY_SHIRINA_DLINA_VALUE",
-		"PROPERTY_VYSOTA_VALUE",
-		"PROPERTY_GLUBINA_VALUE",
-		"DETAIL_PAGE_URL",
-	);
-	$arFilter = array(
-		"IBLOCK_ID" => $arResult['IBLOCK_ID'],
-		"ACTIVE" => "Y",
-		"PROPERTY_OBSHCHIY_IDENTIFIKATOR_DLYA_SAYTA" => $arResult['PROPERTIES']['OBSHCHIY_IDENTIFIKATOR_DLYA_SAYTA']['VALUE'],
-	);
-	$res = CIBlockElement::GetList(array("SORT" => "ASC"), $arFilter, false, false, $arSelect);
-	while ($ob = $res->GetNextElement()) {
-		$arFields = $ob->GetFields();
-		$arResult["DOP_PARAMS"]["SHIRINA_DLINA_VALUE"][] = array(
-			"DLINA_VALUE" => $arFields["PROPERTY_SHIRINA_DLINA_VALUE_VALUE"],
-			"A_URL" => $arFields["DETAIL_PAGE_URL"],
-		);
-		$arResult["DOP_PARAMS"]["SHIRINA_VYSOTA_VALUE"][] = array(
-			"VYSOTA_VALUE" => $arFields["PROPERTY_VYSOTA_VALUE_VALUE"],
-			"A_URL" => $arFields["DETAIL_PAGE_URL"],
-		);
-		$arResult["DOP_PARAMS"]["SHIRINA_GLUBINA_VALUE"][] = array(
-			"GLUBINA_VALUE" => $arFields["PROPERTY_GLUBINA_VALUE_VALUE"],
-			"A_URL" => $arFields["DETAIL_PAGE_URL"],
-		);
-	}
-	function array_unique_key($array, $key)
-	{
-		$tmp = $key_array = array();
-		$i = 0;
-		foreach ($array as $val) {
-			if (!in_array($val[$key], $key_array)) {
-				$key_array[$i] = $val[$key];
-				$tmp[$i] = $val;
-			}
-			$i++;
-		}
-		return $tmp;
-	}
 
-	if (false) {
-		$arResult["DOP_PARAMS"]["SHIRINA_DLINA_VALUE"] = array_unique_key($arResult["DOP_PARAMS"]["SHIRINA_DLINA_VALUE"],
-			'DLINA_VALUE');
-		$arResult["DOP_PARAMS"]["SHIRINA_VYSOTA_VALUE"] = array_unique_key($arResult["DOP_PARAMS"]["SHIRINA_VYSOTA_VALUE"],
-			'VYSOTA_VALUE');
-		$arResult["DOP_PARAMS"]["SHIRINA_GLUBINA_VALUE"] = array_unique_key($arResult["DOP_PARAMS"]["SHIRINA_GLUBINA_VALUE"],
-			'GLUBINA_VALUE');
-		$arResult["DOP_PARAMS"]["SHIRINA_DLINA_VALUE_COUNT"] = count($arResult["DOP_PARAMS"]["SHIRINA_DLINA_VALUE"]);
-		$arResult["DOP_PARAMS"]["SHIRINA_VYSOTA_VALUE_COUNT"] = count($arResult["DOP_PARAMS"]["SHIRINA_VYSOTA_VALUE"]);
-		$arResult["DOP_PARAMS"]["SHIRINA_GLUBINA_VALUE_COUNT"] = count($arResult["DOP_PARAMS"]["SHIRINA_GLUBINA_VALUE"]);
-	}
-}*/
-
-if ('TYPE_1' == $arParams['TYPE_SKU'] && $arResult['OFFERS']){
+if('TYPE_1' == $arParams['TYPE_SKU'] && $arResult['OFFERS']){
 	//for ajax offers
+
 	$arResult['SKU_CONFIG'] = array(
 		"SHOW_ABSENT" => $arParams["SHOW_ABSENT"],
 		"HIDE_NOT_AVAILABLE_OFFERS" => $arParams["HIDE_NOT_AVAILABLE_OFFERS"],
@@ -1610,7 +1553,8 @@ if ('TYPE_1' == $arParams['TYPE_SKU'] && $arResult['OFFERS']){
 		"OFFERS_SORT_ORDER2" => $arParams["OFFERS_SORT_ORDER2"],
 		"LIST_OFFERS_LIMIT" => $arParams["OFFERS_LIMIT"],
 		"CACHE_GROUPS" => $arParams["CACHE_GROUPS"],
-		"LIST_OFFERS_PROPERTY_CODE" => $arParams["OFFERS_PROPERTY_CODE"],
+		"LIST_OFFERS_PROPERTY_CODE" => explode(',',\CMax::GetFrontParametrValue('CATALOG_SKU_PROPERTY_CODE')),
+		"LIST_OFFERS_PROPERTY_CODE_DETAIL" => $arParams["OFFERS_PROPERTY_CODE"],
 		"SHOW_DISCOUNT_TIME" => $arParams["SHOW_DISCOUNT_TIME"],
 		"SHOW_COUNTER_LIST" => $arParams["SHOW_COUNTER_LIST"],
 		"PRICE_VAT_INCLUDE" => $arParams["PRICE_VAT_INCLUDE"],
@@ -1653,6 +1597,8 @@ if ('TYPE_1' == $arParams['TYPE_SKU'] && $arResult['OFFERS']){
 		'USE_STORE_CLICK' => ($arParams["USE_STORE"] == "Y" && $arResult["STORES_COUNT"] && $arResult['CATALOG_TYPE'] != CCatalogProduct::TYPE_SET ? "Y" : "N"),
 		"SHOW_HINTS" => $arParams["SHOW_HINTS"],
 		"CATALOG_DETAIL_SHOW_AMOUNT_STORES" => $arParams['CATALOG_DETAIL_SHOW_AMOUNT_STORES'],
+		"IBLOCK_ID_PARENT" => $arParams["IBLOCK_ID"],
+		"IBLOCK_ID" => $arResult["SKU_IBLOCK_ID"],
 	);
 }
 ?>
